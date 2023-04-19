@@ -1,6 +1,6 @@
-package org.example;
+package org.example.java9;
 
-public class Java9 {
+public class InterfaceDemo {
     interface IDemo {
         private String getName() {
             return "Uy";
@@ -21,7 +21,7 @@ public class Java9 {
     }
 
     public static void main(String[] args) {
-        new Java9().testInterface();
+        new InterfaceDemo().testInterface();
 
     }
 }

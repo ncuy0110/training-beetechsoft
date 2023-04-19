@@ -1,5 +1,4 @@
 package org.example;
 
-public class Java14 {
-
+public class Java17 {
 }
