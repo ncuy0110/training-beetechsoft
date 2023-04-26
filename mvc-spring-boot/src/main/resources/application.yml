@@ -1,12 +1,12 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto=update
+      ddl-auto: "update"
   datasource:
-    url: jdbc:mysql://localhost:3306/spring_basic
-    username: root
-    password: Uy050770@
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/spring_basic"
+    username: "root"
+    password: "Uy050770@"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
   #spring.jpa.show-sql: true
 
 beetech:
