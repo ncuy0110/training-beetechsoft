@@ -12,10 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity
-@Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @ToString
 @RequiredArgsConstructor
 public class User implements UserDetails {
@@ -32,13 +31,14 @@ public class User implements UserDetails {
     @NonNull
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     @NonNull
+    @Getter
     private Collection<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
@@ -55,12 +55,12 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
+    public @NonNull String getPassword() {
         return password;
     }
 
     @Override
-    public String getUsername() {
+    public @NonNull String getUsername() {
         return username;
     }
 

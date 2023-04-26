@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.controller;
+package com.beetech.mvcspringboot.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

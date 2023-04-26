@@ -1,5 +1,7 @@
 package com.beetech.mvcspringboot.controller;
 
+import com.beetech.mvcspringboot.controller.dto.AuthenticationResponse;
+import com.beetech.mvcspringboot.controller.dto.LoginRequest;
 import com.beetech.mvcspringboot.service.implement.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

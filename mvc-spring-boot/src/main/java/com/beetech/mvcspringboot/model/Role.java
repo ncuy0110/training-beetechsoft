@@ -4,18 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Integer id;
 
     @Column(unique = true)
     @NonNull
+    @Getter
     private String name;
 }

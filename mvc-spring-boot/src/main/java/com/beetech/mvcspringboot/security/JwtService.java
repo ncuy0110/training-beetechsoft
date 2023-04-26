@@ -20,9 +20,9 @@ import java.util.function.Function;
  */
 @Service
 public class JwtService {
-    private static String SECRET_KEY = "dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1";
+    private final static String SECRET_KEY = "dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1";
 
-    private static Long jwtExpirationMs = 1000000L;
+    private final static Long jwtExpirationMs = 1000000L;
 
     /**
      * Extract username string.

@@ -1,7 +1,6 @@
 package com.beetech.mvcspringboot.security;
 
 import com.beetech.mvcspringboot.service.implement.UserServiceImpl;
-import com.beetech.mvcspringboot.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,15 +16,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * The type Jwt authentication filter.
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserServiceImpl userService;
-    private final JwtUtils jwtUtils;
+
     private final JwtService jwtService;
 
-    public JwtAuthenticationFilter(UserServiceImpl userService, JwtUtils jwtUtils, JwtService jwtService) {
+    /**
+     * Instantiates a new Jwt authentication filter.
+     *
+     * @param userService the user service
+     * @param jwtService  the jwt service
+     */
+    public JwtAuthenticationFilter(UserServiceImpl userService, JwtService jwtService) {
         this.userService = userService;
-        this.jwtUtils = jwtUtils;
         this.jwtService = jwtService;
     }
 
