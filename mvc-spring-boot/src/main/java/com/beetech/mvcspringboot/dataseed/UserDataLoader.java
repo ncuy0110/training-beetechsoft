@@ -1,14 +1,12 @@
 package com.beetech.mvcspringboot.dataseed;
 
-import com.beetech.mvcspringboot.constants.RoleConstant;
+import com.beetech.mvcspringboot.constants.RoleEnum;
 import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.repository.RoleRepository;
 import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 /**
  * The type User data loader.
@@ -36,8 +34,8 @@ public class UserDataLoader implements CommandLineRunner {
     public void run(String... args) {
         if (userRepository.findUserByUsername("admin").isEmpty()) {
             User user = new User("admin", passwordEncoder.encode("admin"));
-            user.addRole(roleRepository.findRoleByName(RoleConstant.NORMAL));
-            user.addRole(roleRepository.findRoleByName(RoleConstant.ADMIN));
+            user.addRole(roleRepository.findRoleByName(RoleEnum.ADMIN));
+            user.addRole(roleRepository.findRoleByName(RoleEnum.NORMAL));
             userRepository.save(user);
         }
     }

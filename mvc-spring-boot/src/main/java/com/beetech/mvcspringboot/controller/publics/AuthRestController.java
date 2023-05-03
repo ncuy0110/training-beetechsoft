@@ -1,7 +1,7 @@
-package com.beetech.mvcspringboot.controller;
+package com.beetech.mvcspringboot.controller.publics;
 
-import com.beetech.mvcspringboot.controller.dto.AuthenticationResponse;
-import com.beetech.mvcspringboot.controller.dto.LoginRequest;
+import com.beetech.mvcspringboot.controller.publics.dto.AuthenticationResponse;
+import com.beetech.mvcspringboot.controller.publics.dto.LoginDto;
 import com.beetech.mvcspringboot.service.implement.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
+public class AuthRestController {
     private final AuthServiceImpl authService;
 
-    public AuthController(AuthServiceImpl authService) {
+    public AuthRestController(AuthServiceImpl authService) {
         this.authService = authService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginDto request) {
         return ResponseEntity.ok(authService.login(request));
     }
 }

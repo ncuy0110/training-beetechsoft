@@ -22,6 +22,11 @@
                 <input type="password" name="password" required id="password" class="form-control"/>
                 <label class="form-label" for="password">Password</label>
             </div>
+            <!-- Repeat Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" name="repeat_password" required id="repeat_password" class="form-control"/>
+                <label class="form-label" for="repeat_password">Repeat Password</label>
+            </div>
             <div th:if="${param.error}">
                 <div class="alert alert-danger"> Username or password is incorrect!</div>
             </div>
