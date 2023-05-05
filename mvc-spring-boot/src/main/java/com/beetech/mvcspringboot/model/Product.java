@@ -8,8 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -49,6 +49,9 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     @NonNull
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Collection<Cart> carts;
 
     @CreationTimestamp
     private LocalDateTime created;

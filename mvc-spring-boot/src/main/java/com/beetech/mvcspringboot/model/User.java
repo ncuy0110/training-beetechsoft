@@ -18,6 +18,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @Getter
     private Long id;
 
     @Column(name = "username", unique = true, length = 40)
@@ -37,6 +38,9 @@ public class User implements UserDetails {
     @NonNull
     @Getter
     private Collection<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Collection<Cart> carts;
 
     public void addRole(Role role) {
         roles.add(role);

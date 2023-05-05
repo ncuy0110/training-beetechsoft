@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         User user = new User(registerDto.getUsername(),
                 passwordEncoder.encode(registerDto.getPassword()));
         user.addRole(roleRepository.findRoleByName(RoleEnum.NORMAL));
+        userRepository.save(user);
         return user;
     }
 
@@ -51,8 +52,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isEmpty()) {
-            System.out.println("hello");
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new UsernameNotFoundException("User not found.");
         }
         return optionalUser.get();
     }
