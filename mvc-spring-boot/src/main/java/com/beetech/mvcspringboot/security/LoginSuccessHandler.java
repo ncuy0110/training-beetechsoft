@@ -22,9 +22,11 @@ import java.util.Map;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final CartService cartService;
+    private final JwtService jwtService;
 
-    public LoginSuccessHandler(CartService cartService) {
+    public LoginSuccessHandler(CartService cartService, JwtService jwtService) {
         this.cartService = cartService;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -48,6 +50,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             //add cookie to response
             response.addCookie(cookie);
         }
+
+        var token = jwtService.generateToken(userDetails);
+        Cookie cookie = new Cookie("accessToken", token);
+        cookie.setMaxAge(24*60*60);
+        response.addCookie(cookie);
 
         response.sendRedirect("/");
     }

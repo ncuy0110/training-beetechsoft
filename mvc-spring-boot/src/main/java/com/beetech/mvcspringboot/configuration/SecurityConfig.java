@@ -33,7 +33,7 @@ public class SecurityConfig {
      * @param userService             the user service
      * @param passwordEncoder         the password encoder
      * @param jwtAuthenticationFilter jwt filter
-     * @param loginSuccessHandler
+     * @param loginSuccessHandler     handler on login success
      */
     public SecurityConfig(
             UserServiceImpl userService,
@@ -73,24 +73,31 @@ public class SecurityConfig {
         http.cors().and().csrf().disable();
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/admin/**")
-                    .hasAuthority(RoleEnum.ADMIN.toString());
+                    .hasAuthority(RoleEnum.ADMIN.toString()).and();
 
             request.requestMatchers("/api/v1/cart/**")
-                    .hasAuthority(RoleEnum.NORMAL.toString());
+                    .hasAuthority(RoleEnum.NORMAL.toString()).and();
         });
 
         http.formLogin().loginPage("/login")
                 .successHandler(loginSuccessHandler)
-                .permitAll();
+                .permitAll().and();
+
+
 
 
         http.authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
+                .and();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/v1/**")
+                .authenticated().and();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/**")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
                 .and()
                 .httpBasic()
                 .and()

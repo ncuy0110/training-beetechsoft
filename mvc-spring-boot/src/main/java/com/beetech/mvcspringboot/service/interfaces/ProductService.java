@@ -10,4 +10,5 @@ public interface ProductService {
     List<Product> findByCategory(Long categoryId);
     void create(CreateProductDto dto) throws Exception;
     Product findOne(Long productId);
+    List<Product> findAllByIds(List<Long> ids);
 }

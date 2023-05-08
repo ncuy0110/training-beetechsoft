@@ -11,7 +11,6 @@ import java.util.HashSet;
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
 @ToString
 @RequiredArgsConstructor
 public class User implements UserDetails {
@@ -39,8 +38,21 @@ public class User implements UserDetails {
     @Getter
     private Collection<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Collection<Cart> carts;
+
+    public User() {
+
+    }
+
+    public void setCarts(Collection<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public Collection<Cart> getCarts() {
+        return carts;
+    }
 
     public void addRole(Role role) {
         roles.add(role);

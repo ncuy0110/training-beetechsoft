@@ -72,4 +72,8 @@ public class Product implements Serializable {
                 .map(ProductImage::getPath)
                 .collect(Collectors.joining("\n"));
     }
+
+    public String getFirstImagePath() {
+        return getImages().get(0).getPath();
+    }
 }

@@ -22,7 +22,7 @@ public class Cart {
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", nullable = false, insertable = false, updatable = false)
     private Product product;
 
@@ -38,5 +38,9 @@ public class Cart {
 
     public Cart() {
 
+    }
+
+    public Long getTotal() {
+        return getQuantity() * getProduct().getPrice();
     }
 }

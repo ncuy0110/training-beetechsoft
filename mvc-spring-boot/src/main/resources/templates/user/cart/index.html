@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{user/index.html}">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,83 @@
 <body>
 
 <div layout:fragment="content">
-   Cart
+    <div class="container">
+        <h1 class="mb-4">Your Cart</h1>
+        <div sec:authorize="isAuthenticated()" class="row">
+            <div class="col-lg-8">
+                <div th:each="cart : ${carts}" class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img class="img-fluid" th:src="'/uploads/' + ${cart.getProduct().getFirstImagePath()}"
+                                 alt="Product Image" style="height: 150px; width: 150px">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="'Name: ' + ${cart.getProduct().getName()}">Product
+                                    Name</h5>
+                                <p class="card-text mb-1" th:text="'Price: ' + ${cart.getProduct().getPrice()}">Price:
+                                    $100</p>
+                                <p class="card-text mb-0"
+                                   th:text="'Quantity: ' + ${cart.getQuantity()}">
+                                    Total Price: $100</p>
+                                <p class="card-text mb-0"
+                                   th:text="'Total Price: ' + ${cart.getQuantity() * cart.getProduct().getPrice()} + 'VND'">
+                                    Total Price: $100</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary</h5>
+                        <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(carts.![getTotal])}">Total: $500</p>
+                        <a href="#" class="btn btn-primary">Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        not authenticated yet-->
+        <div sec:authorize="!isAuthenticated()" class="row">
+            <div class="col-lg-8">
+                <div th:each="cartItem : ${cartItems}" class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img class="img-fluid" th:src="'/uploads/' + ${cartItem.getProduct().getFirstImagePath()}"
+                                 alt="Product Image" style="height: 150px; width: 150px">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="'Name: ' + ${cartItem.getProduct().getName()}">Product
+                                    Name</h5>
+                                <p class="card-text mb-1" th:text="'Price: ' + ${cartItem.getProduct().getPrice()}">Price:
+                                    $100</p>
+                                <p class="card-text mb-0"
+                                   th:text="'Quantity: ' + ${cartItem.getQuantity()}">
+                                    Total Price: $100</p>
+                                <p class="card-text mb-0"
+                                   th:text="'Total Price: ' + ${cartItem.getTotal()} + 'VND'">
+                                    Total Price: $100</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary</h5>
+                        <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(cartItems.![getTotal])}">Total: $500</p>
+                        <a href="#" class="btn btn-primary">Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        not authenticated yet-->
+
+    </div>
 </div>
 </body>
 </html>
