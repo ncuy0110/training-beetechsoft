@@ -5,9 +5,12 @@ import com.beetech.mvcspringboot.controller.publics.cart.dto.SetCartItemDto;
 import com.beetech.mvcspringboot.model.Cart;
 import com.beetech.mvcspringboot.model.CartKeypair;
 import com.beetech.mvcspringboot.repository.CartRepository;
+import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -19,14 +22,17 @@ import java.util.Optional;
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
+    private final UserRepository userRepository;
 
     /**
      * Instantiates a new Cart service.
      *
      * @param cartRepository the cart repository
+     * @param userRepository
      */
-    public CartServiceImpl(CartRepository cartRepository) {
+    public CartServiceImpl(CartRepository cartRepository, UserRepository userRepository) {
         this.cartRepository = cartRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -50,7 +56,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> findAllByUserId(Long userId) {
-        return cartRepository.findAllByUserId(userId);
+        return cartRepository.findAllByUserIdAndQuantityGreaterThan(userId, 0L);
+    }
+
+    @Override
+    public Long getTotalByUserId(Long userId) {
+        return cartRepository.findAllByUserIdAndQuantityGreaterThan(userId, 0L)
+                .stream().mapToLong(Cart::getTotal)
+                .sum();
     }
 
     @Override
@@ -75,5 +88,11 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new EntityNotFoundException("Cart item not found!"));
         cartItem.setQuantity(cartItem.getQuantity());
         cartRepository.save(cartItem);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void resetCart(Long userId) {
+        cartRepository.resetCartByUserId(userId);
     }
 }

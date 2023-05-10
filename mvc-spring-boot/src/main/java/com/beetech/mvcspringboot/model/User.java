@@ -5,13 +5,13 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
 @Entity
 @Builder
 @AllArgsConstructor
-@ToString
 @RequiredArgsConstructor
 public class User implements UserDetails {
     @Id
@@ -38,9 +38,12 @@ public class User implements UserDetails {
     @Getter
     private Collection<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Collection<Cart> carts;
+    private Collection<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Collection<Order> orders;
 
     public User() {
 
@@ -61,6 +64,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
+    }
+
+    public void clearCart() {
+        carts = new ArrayList<>();
     }
 
     @Override

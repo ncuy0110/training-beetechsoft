@@ -46,7 +46,6 @@ public class CartController {
                 ObjectMapper objectMapper = new ObjectMapper();
                 Map<Long, Long> carts = objectMapper.readValue(cartsCookie, new TypeReference<>() {
                 });
-                System.out.println("carts");
                 List<Long> productIds = new ArrayList<>(carts.keySet());
                 List<CartItem> cartItems = productService.findAllByIds(productIds)
                         .stream()

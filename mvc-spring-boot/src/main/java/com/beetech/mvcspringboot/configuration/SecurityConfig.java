@@ -77,14 +77,17 @@ public class SecurityConfig {
 
             request.requestMatchers("/api/v1/cart/**")
                     .hasAuthority(RoleEnum.NORMAL.toString()).and();
+
+            request.requestMatchers("/pay")
+                    .hasAuthority(RoleEnum.NORMAL.toString());
+
+            request.requestMatchers("/order/**")
+                    .authenticated();
         });
 
         http.formLogin().loginPage("/login")
                 .successHandler(loginSuccessHandler)
                 .permitAll().and();
-
-
-
 
         http.authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
