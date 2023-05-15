@@ -38,6 +38,7 @@
         <div sec:authorize="isAuthenticated()">
             <a href="/admin" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">Admin Page</a>
             <a href="/profile" th:text="${#authentication.getName()}"></a>
+            <a href="/logout">Logout</a>
         </div>
     </nav>
 

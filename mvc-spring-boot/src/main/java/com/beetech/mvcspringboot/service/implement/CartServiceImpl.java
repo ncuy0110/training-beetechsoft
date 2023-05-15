@@ -5,7 +5,6 @@ import com.beetech.mvcspringboot.controller.publics.cart.dto.SetCartItemDto;
 import com.beetech.mvcspringboot.model.Cart;
 import com.beetech.mvcspringboot.model.CartKeypair;
 import com.beetech.mvcspringboot.repository.CartRepository;
-import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,17 +21,14 @@ import java.util.Optional;
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
 
     /**
      * Instantiates a new Cart service.
      *
      * @param cartRepository the cart repository
-     * @param userRepository
      */
-    public CartServiceImpl(CartRepository cartRepository, UserRepository userRepository) {
+    public CartServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -56,13 +52,22 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> findAllByUserId(Long userId) {
-        return cartRepository.findAllByUserIdAndQuantityGreaterThan(userId, 0L);
+        return cartRepository.findAllByUserId(userId);
     }
 
     @Override
-    public Long getTotalByUserId(Long userId) {
-        return cartRepository.findAllByUserIdAndQuantityGreaterThan(userId, 0L)
-                .stream().mapToLong(Cart::getTotal)
+    public Cart findOneByUserAndProduct(Long userId, Long productId) {
+        Optional<Cart> optionalCart = cartRepository.findByUserIdAndProductId(userId, productId);
+        if (optionalCart.isEmpty()) {
+            throw new EntityNotFoundException("Cart item not found!");
+        }
+        return optionalCart.get();
+    }
+
+    @Override
+    public Double getTotalByUserId(Long userId) {
+        return cartRepository.findAllByUserId(userId)
+                .stream().mapToDouble(Cart::getTotal)
                 .sum();
     }
 

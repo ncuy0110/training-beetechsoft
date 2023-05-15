@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -19,6 +21,11 @@
                 </a>
                 <ul class="nav nav-pills flex-column mt-4">
                     <li class="nav-item">
+                        <a id="home" href="/" class="nav-link text-white">
+                            <i class="fa-solid fa-house m-2"></i><span class="fs-4 d-none d-sm-inline">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a id="category" href="/admin/categories" class="nav-link text-white">
                             <i class="fa-solid fa-list m-2"></i><span class="fs-4 d-none d-sm-inline">Category</span>
                         </a>
@@ -27,6 +34,12 @@
                         <a id="product" href="/admin/products" class="nav-link text-white active">
                             <i class="fa-solid fa-boxes-stacked m-2"></i><span
                                 class="fs-4 d-none d-sm-inline">Product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a id="discount" href="/admin/discounts" class="nav-link text-white active">
+                            <i class="fa-solid fa-percent m-2"></i><span
+                                class="fs-4 d-none d-sm-inline">Discount</span>
                         </a>
                     </li>
                     <li class="nav-item ">
@@ -57,6 +70,8 @@
         $("#product").addClass("active");
     } else if (path.includes("admin/categories")) {
         $("#category").addClass("active");
+    } else if (path.includes("admin/discounts")) {
+        $("#discount").addClass("active");
     }
 </script>
 </body>

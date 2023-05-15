@@ -9,7 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -32,7 +34,7 @@ public class Product implements Serializable {
 
     @Column(name = "price", nullable = false)
     @NonNull
-    private Long price;
+    private Double price;
 
     @Column(name = "quantity", nullable = false)
     @NonNull
@@ -52,6 +54,9 @@ public class Product implements Serializable {
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Collection<Cart> carts;
+
+    @ManyToMany(mappedBy = "products")
+    private Set<Discount> discounts = new HashSet<>();
 
     @CreationTimestamp
     private LocalDateTime created;

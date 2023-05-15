@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.CookieRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
@@ -20,13 +22,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Component
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final CartService cartService;
     private final JwtService jwtService;
 
-    public LoginSuccessHandler(CartService cartService, JwtService jwtService) {
+
+    public AuthenticationSuccessHandler(CartService cartService, JwtService jwtService) {
         this.cartService = cartService;
         this.jwtService = jwtService;
+        RequestCache requestCache = new CookieRequestCache();
+        super.setRequestCache(requestCache);
+        super.setDefaultTargetUrl("/");
     }
 
     @Override
@@ -53,9 +59,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         var token = jwtService.generateToken(userDetails);
         Cookie cookie = new Cookie("accessToken", token);
-        cookie.setMaxAge(24*60*60);
+        cookie.setMaxAge(24*60*60*1000);
         response.addCookie(cookie);
-
-        response.sendRedirect("/");
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

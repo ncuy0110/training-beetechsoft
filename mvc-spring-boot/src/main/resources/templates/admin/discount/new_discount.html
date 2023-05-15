@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>New Discount</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        $(document).ready(() => {
+            $('.datetime-picker').flatpickr({
+                dateFormat: 'd/m/Y H:i',
+                minDate: 'today',
+                enableTime: true,
+                defaultDate: 'today',
+                allowInput: false,
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="col-10">
+    <div layout:fragment="content">
+        <h1>Create Product</h1>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <form action="#" th:action="@{/admin/discounts/new}" th:object="${discountDto}" method="post">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Discount name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="description" id="description"
+                               placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="percent">Percent(%)</label>
+                        <input type="number" class="form-control" name="percent" value="10" id="percent" placeholder="Percent">
+                    </div>
+                    <div class="form-group">
+                        <label for="productIdA">Product A</label>
+                        <select id="productIdA" name="productIdA">
+                            <option th:each="product: ${products}" th:value="${product.getId()}"
+                                    th:text="${product.getName()}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productIdB">Product B</label>
+                        <select id="productIdB" name="productIdB">
+                            <option th:each="product: ${products}" th:value="${product.getId()}"
+                                    th:text="${product.getName()}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime">Start Time</label>
+                        <input class="form-control datetime-picker" name="startTime" type="text" id="startTime"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime">End Time</label>
+                        <input class="form-control datetime-picker" name="endTime" type="text" id="endTime"/>
+                    </div>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger" th:text="${param.error}"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -17,7 +17,7 @@ public class CartItem {
     @Min(1)
     private Long quantity;
 
-    public Long getTotal() {
+    public Double getTotal() {
         return product.getPrice() * quantity;
     }
 }

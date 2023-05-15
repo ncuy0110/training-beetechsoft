@@ -6,6 +6,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Cart</title>
+    <script>
+        $(document).ready(() => {
+            $('#apply-discount').on('click', () => {
+                const discountId = $('#discount').val();
+                const accessToken = $.cookie('accessToken');
+                $.ajax({
+                    url: `/api/v1/discount/${discountId}/apply`,
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    contentType: 'application/json',
+                    success: function (response) {
+                        $('#total-amount').text(`Total: $${response}`);
+                        alert('Apply discount successfully!');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert('Apply discount failed!');
+                    }
+                });
+            });
+        })
+    </script>
 </head>
 <body>
 
@@ -15,7 +39,7 @@
         <h3 sec:authorize="isAuthenticated()" th:if="${carts.size() == 0}" class="row">
             No have added cart item
         </h3>
-        <div sec:authorize="isAuthenticated()" th:if="${carts.size() > 0}"  class="row">
+        <div sec:authorize="isAuthenticated()" th:if="${carts.size() > 0}" class="row">
             <div class="col-lg-8">
                 <div th:each="cart : ${carts}" class="card mb-3">
                     <div class="row g-0">
@@ -44,17 +68,30 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Summary</h5>
-                        <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(carts.![getTotal])}">Total: $500</p>
                         <form th:action="@{/pay}" method="post">
+                            <p class="card-text" id="total-amount"
+                               th:text="'Total: $' + ${#aggregates.sum(carts.![getTotal])}">Total: $500</p>
                             <button type="submit" class="btn btn-primary">Checkout</button>
+
+                            <div class="form-group">
+                                <label for="discount">Select Discount:</label>
+                                <select class="form-control" id="discount" name="discountId">
+                                    <option value="">None</option>
+                                    <th:block th:each="discount : ${discounts}">
+                                        <option th:value="${discount.getId()}"
+                                                th:text="${discount.toString()}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
                         </form>
+                        <button th:if="${discounts.size()>0}" id="apply-discount" class="btn btn-primary">Apply</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!--        not authenticated yet-->
-        <h3  sec:authorize="!isAuthenticated()" th:if="${cartItems.size() == 0}" class="row">
+        <h3 sec:authorize="!isAuthenticated()" th:if="${cartItems.size() == 0}" class="row">
             No have added cart item
         </h3>
         <div sec:authorize="!isAuthenticated()" th:if="${cartItems.size() > 0}" class="row">
@@ -69,7 +106,8 @@
                             <div class="card-body">
                                 <h5 class="card-title" th:text="'Name: ' + ${cartItem.getProduct().getName()}">Product
                                     Name</h5>
-                                <p class="card-text mb-1" th:text="'Price: ' + ${cartItem.getProduct().getPrice()}">Price:
+                                <p class="card-text mb-1" th:text="'Price: ' + ${cartItem.getProduct().getPrice()}">
+                                    Price:
                                     $100</p>
                                 <p class="card-text mb-0"
                                    th:text="'Quantity: ' + ${cartItem.getQuantity()}">
@@ -86,7 +124,8 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Summary</h5>
-                        <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(cartItems.![getTotal])}">Total: $500</p>
+                        <p class="card-text" th:text="'Total: $' + ${#aggregates.sum(cartItems.![getTotal])}">Total:
+                            $500</p>
                         <a href="/login" class="btn btn-primary">Checkout</a>
                     </div>
                 </div>
@@ -94,7 +133,7 @@
         </div>
         <!--        not authenticated yet-->
 
-    </h3>
+    </div>
 </div>
 </body>
 </html>

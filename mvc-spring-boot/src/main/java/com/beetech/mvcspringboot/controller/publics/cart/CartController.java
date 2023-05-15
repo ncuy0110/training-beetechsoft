@@ -1,8 +1,11 @@
 package com.beetech.mvcspringboot.controller.publics.cart;
 
 import com.beetech.mvcspringboot.controller.publics.cart.dto.CartItem;
+import com.beetech.mvcspringboot.model.Cart;
+import com.beetech.mvcspringboot.model.Discount;
 import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
+import com.beetech.mvcspringboot.service.interfaces.DiscountService;
 import com.beetech.mvcspringboot.service.interfaces.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -25,10 +28,12 @@ import java.util.stream.Collectors;
 public class CartController {
     private final CartService cartService;
     private final ProductService productService;
+    private final DiscountService discountService;
 
-    public CartController(CartService cartService, ProductService productService) {
+    public CartController(CartService cartService, ProductService productService, DiscountService discountService) {
         this.cartService = cartService;
         this.productService = productService;
+        this.discountService = discountService;
     }
 
     @GetMapping("")
@@ -40,7 +45,11 @@ public class CartController {
         if (authentication != null && authentication.isAuthenticated()) {
             var userDetails = (UserDetails) authentication.getPrincipal();
             Long userId = ((User) userDetails).getId();
-            model.addAttribute("carts", cartService.findAllByUserId(userId));
+            List<Cart> carts = cartService.findAllByUserId(userId);
+            List<Discount> discounts = discountService.findAllByUserCart(userId);
+            discounts.forEach(System.out::println);
+            model.addAttribute("discounts", discounts);
+            model.addAttribute("carts", carts);
         } else if (!cartsCookie.equals("")) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();

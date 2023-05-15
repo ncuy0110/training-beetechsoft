@@ -20,9 +20,13 @@ import java.util.function.Function;
  */
 @Service
 public class JwtService {
-    private final static String SECRET_KEY = "dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1dcd827b27e0a4b78b566368d30a3bba1";
 
-    private final static Long jwtExpirationMs = 24*60*60L;
+
+    @Value("${beetech.app.jwtSecret}")
+    private String SECRET_KEY;
+
+    @Value("${beetech.app.jwtExpirationMs}")
+    private Long jwtExpirationMs;
 
     /**
      * Extract username string.

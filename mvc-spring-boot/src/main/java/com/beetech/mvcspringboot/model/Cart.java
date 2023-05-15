@@ -40,7 +40,7 @@ public class Cart {
 
     }
 
-    public Long getTotal() {
+    public Double getTotal() {
         return getQuantity() * getProduct().getPrice();
     }
 }
