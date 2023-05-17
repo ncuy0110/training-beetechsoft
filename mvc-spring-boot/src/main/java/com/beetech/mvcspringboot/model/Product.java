@@ -8,10 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -45,7 +42,7 @@ public class Product implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "product")
-    private List<ProductImage> images;
+    private List<ProductImage> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
@@ -53,7 +50,7 @@ public class Product implements Serializable {
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private Collection<Cart> carts;
+    private Collection<Cart> carts = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
     private Set<Discount> discounts = new HashSet<>();

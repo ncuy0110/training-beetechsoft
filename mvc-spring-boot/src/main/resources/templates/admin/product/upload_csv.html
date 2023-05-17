@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload CSV</title>
+</head>
+<body>
+
+<div class="col-10">
+  <div layout:fragment="content">
+    <h1>Upload CSV File</h1>
+    <div class="container mt-5">
+      <h2>Upload CSV File</h2>
+      <form th:action="@{/admin/products/upload-csv}" method="POST" enctype="multipart/form-data" accept-charset="Shift_JIS">
+        <div class="form-group">
+          <label for="csvFile">Select CSV File:</label>
+          <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept="text/csv">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

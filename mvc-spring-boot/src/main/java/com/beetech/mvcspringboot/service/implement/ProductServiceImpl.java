@@ -1,6 +1,7 @@
 package com.beetech.mvcspringboot.service.implement;
 
 import com.beetech.mvcspringboot.controller.admin.product.dto.CreateProductDto;
+import com.beetech.mvcspringboot.controller.admin.product.dto.ProductCsvDto;
 import com.beetech.mvcspringboot.model.Product;
 import com.beetech.mvcspringboot.repository.CategoryRepository;
 import com.beetech.mvcspringboot.repository.ProductRepository;
@@ -48,6 +49,15 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public void createByCsv(List<ProductCsvDto> productCsvDtoList) {
+        List<CreateProductDto> createProductDtoList = productCsvDtoList
+                .stream()
+                .map(CreateProductDto::new)
+                .toList();
+        createProductDtoList.forEach(this::create);
     }
 
     public Product findOne(Long productId) {
