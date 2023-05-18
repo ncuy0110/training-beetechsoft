@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ff39eaa-fbb9-4a5e-bfbf-6defab300c84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../core-3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../core-3/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/PassingDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/StringAndStringBuilderComparing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,33 +29,32 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="2NznwIv5Ks53oeQKyaskseGZRI0" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "core-4",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -62,6 +65,7 @@
       <updated>1680676016325</updated>
       <workItem from="1680676017464" duration="6390000" />
       <workItem from="1680744916050" duration="9508000" />
+      <workItem from="1684404085364" duration="448000" />
     </task>
     <servers />
   </component>
