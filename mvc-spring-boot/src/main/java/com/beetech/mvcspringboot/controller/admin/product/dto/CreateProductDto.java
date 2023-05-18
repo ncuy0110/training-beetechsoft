@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 @Builder
 public class CreateProductDto {
     @NonNull
