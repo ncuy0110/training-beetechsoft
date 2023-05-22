@@ -1,5 +1,6 @@
 package com.beetech.mvcspringboot.model;
 
+import com.beetech.mvcspringboot.constants.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -98,5 +99,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean hasRole(RoleEnum roleEnum) {
+        return getRoles().stream().anyMatch(role -> role.getName().equals(roleEnum));
     }
 }

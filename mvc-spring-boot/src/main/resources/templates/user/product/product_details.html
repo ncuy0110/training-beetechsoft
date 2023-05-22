@@ -16,8 +16,11 @@
                 <!-- Image Slider -->
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <div th:each="image : ${product.getImages()}" class="carousel-item" style="height: 300px">
+                        <div th:if="${product.getImages().size() > 0}" th:each="image : ${product.getImages()}" class="carousel-item" style="height: 300px">
                             <img th:src="'/uploads/' + ${image.getPath()}" class="d-block w-100" alt="...">
+                        </div>
+                        <div th:if="${product.getImages().size() < 1}" class="carousel-item" style="height: 300px">
+                            <img th:src="'/images/product.png'" class="d-block w-100" alt="...">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
