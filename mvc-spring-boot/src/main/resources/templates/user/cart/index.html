@@ -12,7 +12,10 @@
 <div layout:fragment="content">
     <div class="container">
         <h1 class="mb-4">Your Cart</h1>
-        <div sec:authorize="isAuthenticated()" class="row">
+        <h3 sec:authorize="isAuthenticated()" th:if="${carts.size() == 0}" class="row">
+            No have added cart item
+        </h3>
+        <div sec:authorize="isAuthenticated()" th:if="${carts.size() > 0}"  class="row">
             <div class="col-lg-8">
                 <div th:each="cart : ${carts}" class="card mb-3">
                     <div class="row g-0">
@@ -30,7 +33,7 @@
                                    th:text="'Quantity: ' + ${cart.getQuantity()}">
                                     Total Price: $100</p>
                                 <p class="card-text mb-0"
-                                   th:text="'Total Price: ' + ${cart.getQuantity() * cart.getProduct().getPrice()} + 'VND'">
+                                   th:text="'Total Price: $' + ${cart.getQuantity() * cart.getProduct().getPrice()}">
                                     Total Price: $100</p>
                             </div>
                         </div>
@@ -42,14 +45,19 @@
                     <div class="card-body">
                         <h5 class="card-title">Summary</h5>
                         <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(carts.![getTotal])}">Total: $500</p>
-                        <a href="#" class="btn btn-primary">Checkout</a>
+                        <form th:action="@{/pay}" method="post">
+                            <button type="submit" class="btn btn-primary">Checkout</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
         <!--        not authenticated yet-->
-        <div sec:authorize="!isAuthenticated()" class="row">
+        <h3  sec:authorize="!isAuthenticated()" th:if="${cartItems.size() == 0}" class="row">
+            No have added cart item
+        </h3>
+        <div sec:authorize="!isAuthenticated()" th:if="${cartItems.size() > 0}" class="row">
             <div class="col-lg-8">
                 <div th:each="cartItem : ${cartItems}" class="card mb-3">
                     <div class="row g-0">
@@ -67,7 +75,7 @@
                                    th:text="'Quantity: ' + ${cartItem.getQuantity()}">
                                     Total Price: $100</p>
                                 <p class="card-text mb-0"
-                                   th:text="'Total Price: ' + ${cartItem.getTotal()} + 'VND'">
+                                   th:text="'Total Price: $' + ${cartItem.getTotal()}">
                                     Total Price: $100</p>
                             </div>
                         </div>
@@ -79,14 +87,14 @@
                     <div class="card-body">
                         <h5 class="card-title">Summary</h5>
                         <p class="card-text" th:text="'Total: ' + ${#aggregates.sum(cartItems.![getTotal])}">Total: $500</p>
-                        <a href="#" class="btn btn-primary">Checkout</a>
+                        <a href="/login" class="btn btn-primary">Checkout</a>
                     </div>
                 </div>
             </div>
         </div>
         <!--        not authenticated yet-->
 
-    </div>
+    </h3>
 </div>
 </body>
 </html>

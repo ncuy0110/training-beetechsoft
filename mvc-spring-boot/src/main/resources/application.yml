@@ -14,3 +14,9 @@ beetech:
   app:
     jwtSecret: "955b46b4-0b5e-48c9-896d-b94aaf9fc0cb"
     jwtExpirationMs: 86400000
+
+paypal:
+  client:
+    id: "AVApDMmhEqZ4mfll58U7HqLDzfMCfLYtjsQSpveu65pSj6uqvM0E6-FGBEB7h_twCkL2dNhYjqeWSNZS"
+    secret: "EOelwKThhDhFCzY7ng3D9yfdIyQTEUM09znDjaQIE9vQLIWsL1hicEz7dya86ve1hojiLP0k8lKzkYNn"
+  mode: "sandbox"

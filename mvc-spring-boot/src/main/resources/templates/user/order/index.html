@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{user/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div sec:authorize="isAuthenticated()" class="row">
+        <div class="col-lg-8">
+            <div th:each="order: ${orders}" class="card mb-3">
+                <div class="row g-0" th:each="detail: ${order.getOrderDetails()}">
+                    <div class="col-md-3">
+                        <img class="img-fluid" th:src="'/uploads/' + ${detail.getProduct().getFirstImagePath()}"
+                             alt="Product Image" style="height: 150px; width: 150px">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="'Name: ' + ${detail.getProduct().getName()}">Product
+                                Name</h5>
+                            <p class="card-text mb-1" th:text="'Price: ' + ${detail.getPrice()}">Price:
+                                $100</p>
+                            <p class="card-text mb-0"
+                               th:text="'Quantity: ' + ${detail.getQuantity()}">
+                                Quantity: $100</p>
+                            <p class="card-text mb-0"
+                               th:text="'Total Price: $' + ${detail.getTotal()}">
+                                Total Price: $100</p>
+                        </div>
+                    </div>
+                </div>
+                <p th:if="${order.isPaid()}">Paid</p>
+                <p th:unless="${order.isPaid()}">Unpaid</p>
+                <h3 th:text="'Total: ' + ${order.getTotal()}"></h3>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
