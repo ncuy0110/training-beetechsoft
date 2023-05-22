@@ -12,7 +12,7 @@ spring:
 
 beetech:
   app:
-    jwtSecret: "955b46b4-0b5e-48c9-896d-b94aaf9fc0cb"
+    jwtSecret: "955b46b40b5e48c9896db94aaf9fc0cb955b46b40b5e48c9896db94aaf9fc0cb955b46b40b5e48c9896db94aaf9fc0cb955b46b40b5e48c9896db94aaf9fc0c955b46b40b5e48c9896db94aaf9fc0cbb"
     jwtExpirationMs: 86400000
 
 paypal:

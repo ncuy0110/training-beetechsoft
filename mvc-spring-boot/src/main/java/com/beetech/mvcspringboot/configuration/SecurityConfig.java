@@ -1,8 +1,8 @@
 package com.beetech.mvcspringboot.configuration;
 
 import com.beetech.mvcspringboot.constants.RoleEnum;
+import com.beetech.mvcspringboot.security.AuthenticationSuccessHandler;
 import com.beetech.mvcspringboot.security.JwtAuthenticationFilter;
-import com.beetech.mvcspringboot.security.LoginSuccessHandler;
 import com.beetech.mvcspringboot.service.implement.UserServiceImpl;
 import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.CookieRequestCache;
 
 /**
  * The type Security config.
@@ -25,25 +26,25 @@ public class SecurityConfig {
     private final UserServiceImpl userService;
     private final CustomPasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final LoginSuccessHandler loginSuccessHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     /**
      * Instantiates a new Security config.
      *
-     * @param userService             the user service
-     * @param passwordEncoder         the password encoder
-     * @param jwtAuthenticationFilter jwt filter
-     * @param loginSuccessHandler     handler on login success
+     * @param userService                  the user service
+     * @param passwordEncoder              the password encoder
+     * @param jwtAuthenticationFilter      jwt filter
+     * @param authenticationSuccessHandler handler on login success
      */
     public SecurityConfig(
             UserServiceImpl userService,
             CustomPasswordEncoder passwordEncoder,
             JwtAuthenticationFilter jwtAuthenticationFilter,
-            LoginSuccessHandler loginSuccessHandler) {
+            AuthenticationSuccessHandler authenticationSuccessHandler) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.loginSuccessHandler = loginSuccessHandler;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
     }
 
     @Bean
@@ -76,18 +77,32 @@ public class SecurityConfig {
                     .hasAuthority(RoleEnum.ADMIN.toString()).and();
 
             request.requestMatchers("/api/v1/cart/**")
-                    .hasAuthority(RoleEnum.NORMAL.toString()).and();
+                    .authenticated().and();
+
+            request.requestMatchers("/api/v1/cart/**")
+                    .authenticated().and();
 
             request.requestMatchers("/pay")
-                    .hasAuthority(RoleEnum.NORMAL.toString());
+                    .authenticated().and();
 
             request.requestMatchers("/order/**")
-                    .authenticated();
+                    .authenticated().and();
         });
 
         http.formLogin().loginPage("/login")
-                .successHandler(loginSuccessHandler)
-                .permitAll().and();
+                .successHandler(authenticationSuccessHandler)
+                .permitAll()
+                .and()
+                .requestCache()
+                .requestCache(new CookieRequestCache())
+                .and();
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("accessToken"));
+
 
         http.authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")

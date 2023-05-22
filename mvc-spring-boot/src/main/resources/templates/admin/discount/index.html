@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Discount</title>
+</head>
+<body>
+
+<div class="col-10">
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-2 mt-3">
+                <a href="/admin/discounts/new" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New</a>
+            </div>
+        </div>
+
+        <div th:if="${param.create_success}">
+            <div class="alert alert-info" >Create success</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Product A</th>
+                        <th scope="col">Product B</th>
+                        <th scope="col">Percent</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${discounts.size() == 0}">
+                        <td colspan="2"> No Discounts Available</td>
+                    </tr>
+                    <tr th:each="discount: ${discounts}">
+                        <th scope="row" th:text="${discount.getId()}">1</th>
+                        <td th:text="${discount.getName()}">Name</td>
+                        <td th:text="${discount.getDescription()}">Description</td>
+                        <td th:text="${discount.getProducts().get(0).getName()}">ProductA</td>
+                        <td th:text="${discount.getProducts().get(1).getName()}">ProductB</td>
+                        <td th:text="${discount.getPercent()} + '%'">Percent</td>
+                        <td th:text="${discount.getStartTime()}">Start Time</td>
+                        <td th:text="${discount.getEndTime()}">End Time</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

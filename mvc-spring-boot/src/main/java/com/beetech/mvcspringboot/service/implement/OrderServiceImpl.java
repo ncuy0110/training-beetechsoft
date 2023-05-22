@@ -28,12 +28,14 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrderFromCart(Long userId) {
         try {
             List<Cart> cartItems = cartService.findAllByUserId(userId);
-            Long total = cartService.getTotalByUserId(userId);
+
+            Double total = cartService.getTotalByUserId(userId);
             Order order = Order.builder()
                     .user(userRepository
                             .findById(userId)
                             .orElseThrow(() -> new EntityNotFoundException("User not found")))
                     .total(total)
+                    .totalAmountAfterDiscount(total)
                     .build();
 
             List<OrderDetail> orderDetails = cartItems

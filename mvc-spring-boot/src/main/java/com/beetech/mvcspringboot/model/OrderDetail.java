@@ -28,10 +28,10 @@ public class OrderDetail {
     private Long quantity;
 
     @Column(nullable = false, updatable = false)
-    private Long price;
+    private Double price;
 
     @Column(nullable = false, updatable = false)
-    private Long total;
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

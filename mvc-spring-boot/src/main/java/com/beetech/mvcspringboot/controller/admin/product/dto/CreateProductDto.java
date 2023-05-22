@@ -14,7 +14,7 @@ import java.util.List;
 public class CreateProductDto {
     private String name;
     private String description;
-    private Long price;
+    private Double price;
     private Long quantity;
     private Long categoryId;
     private List<MultipartFile> images;

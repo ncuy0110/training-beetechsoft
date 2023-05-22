@@ -10,7 +10,8 @@ import java.util.Map;
 public interface CartService {
     void synchronizeCart(Long userId, Map<Long, Long> carts);
     List<Cart> findAllByUserId(Long userId);
-    Long getTotalByUserId(Long userId);
+    Cart findOneByUserAndProduct(Long userId, Long productId);
+    Double getTotalByUserId(Long userId);
     void addToCart(Long userId, AddingCartItemDto cartItemDto);
     void setQuantity(Long userId, SetCartItemDto cartItemDto);
     void resetCart(Long userId);

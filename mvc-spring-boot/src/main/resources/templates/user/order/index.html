@@ -34,7 +34,7 @@
                 </div>
                 <p th:if="${order.isPaid()}">Paid</p>
                 <p th:unless="${order.isPaid()}">Unpaid</p>
-                <h3 th:text="'Total: ' + ${order.getTotal()}"></h3>
+                <h3 th:text="'Total: ' + ${order.getTotalAmountAfterDiscount()}"></h3>
             </div>
         </div>
     </div>

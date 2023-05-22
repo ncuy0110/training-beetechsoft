@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, CartKeypair> {
-    List<Cart> findAllByUserIdAndQuantityGreaterThan(Long userId, Long quantity);
+    @Query("SELECT c from Cart c where c.user.id = :userId and c.quantity > 0")
+    List<Cart> findAllByUserId(Long userId);
     Optional<Cart> findByUserIdAndProductId(Long userId, Long productId);
     @Transactional(propagation = Propagation.REQUIRED)
     @Modifying
