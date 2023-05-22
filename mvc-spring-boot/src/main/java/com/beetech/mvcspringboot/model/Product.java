@@ -8,8 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -50,6 +50,9 @@ public class Product implements Serializable {
     @NonNull
     private Category category;
 
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Collection<Cart> carts;
+
     @CreationTimestamp
     private LocalDateTime created;
 
@@ -68,5 +71,9 @@ public class Product implements Serializable {
         return getImages().stream()
                 .map(ProductImage::getPath)
                 .collect(Collectors.joining("\n"));
+    }
+
+    public String getFirstImagePath() {
+        return getImages().get(0).getPath();
     }
 }

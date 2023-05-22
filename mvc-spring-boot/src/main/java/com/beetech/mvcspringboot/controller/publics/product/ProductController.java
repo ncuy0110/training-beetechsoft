@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,5 +31,11 @@ public class ProductController {
             model.addAttribute("products", productService.findAll());
         }
         return "user/product/index";
+    }
+
+    @GetMapping("/{productId}")
+    public String getProductDetailsPage(Model model, @PathVariable("productId") String productId) {
+        model.addAttribute("product", productService.findOne(Long.parseLong(productId)));
+        return "user/product/product_details";
     }
 }

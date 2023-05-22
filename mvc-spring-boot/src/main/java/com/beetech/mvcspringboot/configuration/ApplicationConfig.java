@@ -1,35 +1,38 @@
 package com.beetech.mvcspringboot.configuration;
 
 import com.beetech.mvcspringboot.repository.UserRepository;
-import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+/**
+ * The type Application config.
+ */
 @Configuration
 public class ApplicationConfig {
     private final UserRepository userRepository;
-    private final CustomPasswordEncoder passwordEncoder;
 
 
-    public ApplicationConfig(UserRepository userRepository, CustomPasswordEncoder passwordEncoder) {
+    /**
+     * Instantiates a new Application config.
+     *
+     * @param userRepository the user repository
+     */
+    public ApplicationConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * User details service user details service.
+     *
+     * @return the user details service
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-
 
 
 }

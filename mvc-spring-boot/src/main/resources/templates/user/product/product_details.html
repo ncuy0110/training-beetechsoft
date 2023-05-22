@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{user/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <script src="/js/cart.js"> </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <!-- Image Slider -->
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="image : ${product.getImages()}" class="carousel-item" style="height: 300px">
+                            <img th:src="'/uploads/' + ${image.getPath()}" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Product Detail -->
+                <h2 class="mt-4" th:text="${product.getName()}"></h2>
+                <p class="lead" th:text="'Description: ' + ${product.getDescription()}"></p>
+                <h3 class="mt-4" th:text="'Price: ' + ${product.getPrice()}">$100.00</h3>
+                <p class="text-muted" th:text="'Remaining quantity: ' + ${product.getQuantity()}">In Stock: 10</p>
+                <label for="quantity">Quantity</label><input type="number" id="quantity" name="quantity" value="1">
+                <button th:onclick="'addToCartAuth(\'' + ${product.getId()} + '\')'" id="add-to-card-auth"
+                        sec:authorize="isAuthenticated()" type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+                <button th:onclick="'addToCartUnAuth(\'' + ${product.getId()} + '\')'" id="add-to-cart"
+                        sec:authorize="!isAuthenticated()" type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

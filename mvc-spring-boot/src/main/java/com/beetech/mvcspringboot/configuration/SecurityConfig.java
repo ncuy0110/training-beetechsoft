@@ -2,6 +2,7 @@ package com.beetech.mvcspringboot.configuration;
 
 import com.beetech.mvcspringboot.constants.RoleEnum;
 import com.beetech.mvcspringboot.security.JwtAuthenticationFilter;
+import com.beetech.mvcspringboot.security.LoginSuccessHandler;
 import com.beetech.mvcspringboot.service.implement.UserServiceImpl;
 import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
 import org.springframework.context.annotation.Bean;
@@ -24,22 +25,25 @@ public class SecurityConfig {
     private final UserServiceImpl userService;
     private final CustomPasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final LoginSuccessHandler loginSuccessHandler;
 
     /**
      * Instantiates a new Security config.
      *
      * @param userService             the user service
      * @param passwordEncoder         the password encoder
-     * @param jwtAuthenticationFilter
+     * @param jwtAuthenticationFilter jwt filter
+     * @param loginSuccessHandler     handler on login success
      */
     public SecurityConfig(
             UserServiceImpl userService,
             CustomPasswordEncoder passwordEncoder,
-            JwtAuthenticationFilter jwtAuthenticationFilter
-    ) {
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            LoginSuccessHandler loginSuccessHandler) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.loginSuccessHandler = loginSuccessHandler;
     }
 
     @Bean
@@ -69,19 +73,31 @@ public class SecurityConfig {
         http.cors().and().csrf().disable();
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/admin/**")
-                    .hasAuthority(RoleEnum.NORMAL.toString());
+                    .hasAuthority(RoleEnum.ADMIN.toString()).and();
+
+            request.requestMatchers("/api/v1/cart/**")
+                    .hasAuthority(RoleEnum.NORMAL.toString()).and();
         });
 
         http.formLogin().loginPage("/login")
-                .permitAll();
+                .successHandler(loginSuccessHandler)
+                .permitAll().and();
 
-        http .authorizeHttpRequests()
+
+
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
+                .and();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/v1/**")
+                .authenticated().and();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/**")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
                 .and()
                 .httpBasic()
                 .and()
