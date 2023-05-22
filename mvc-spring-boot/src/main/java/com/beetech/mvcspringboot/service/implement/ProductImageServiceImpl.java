@@ -26,9 +26,9 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public void create(List<MultipartFile> images, Product product) {
         try {
-            for (MultipartFile image: images) {
+            for (MultipartFile image : images) {
                 String filename = filesStorageService.save(image);
-                ProductImage productImage = new ProductImage(filename, image.getContentType(), product);
+                ProductImage productImage = new ProductImage(filename, image.getOriginalFilename(), image.getContentType(), product);
                 productImageRepository.save(productImage);
             }
         } catch (Exception e) {

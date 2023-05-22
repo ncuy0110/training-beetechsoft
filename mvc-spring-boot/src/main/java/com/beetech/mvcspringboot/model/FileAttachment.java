@@ -25,6 +25,10 @@ public abstract class FileAttachment {
 
     @Column
     @NonNull
+    private String originalName;
+
+    @Column
+    @NonNull
     private String fileType;
 
     @CreationTimestamp

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.CookieRequestCache;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * The type Security config.
@@ -71,7 +72,13 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();
+//        http.cors().and().csrf().disable();
+        http.cors().disable();
+
+        http.csrf(httpSecurityCsrfConfigurer -> {
+            httpSecurityCsrfConfigurer.ignoringRequestMatchers("/api/v1/**");
+        });
+
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/admin/**")
                     .hasAuthority(RoleEnum.ADMIN.toString()).and();
@@ -98,7 +105,7 @@ public class SecurityConfig {
                 .and();
 
         http.logout(logout -> logout
-                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("accessToken"));

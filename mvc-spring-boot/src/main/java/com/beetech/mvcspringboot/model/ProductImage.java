@@ -20,10 +20,11 @@ public class ProductImage extends FileAttachment {
     @NonNull
     private Product product;
 
-    public ProductImage(String filename, String contentType, Product product) {
+    public ProductImage(String filename, String originalName, String contentType, Product product) {
         setPath(filename);
         setFileType(contentType);
         setProduct(product);
+        setOriginalName(originalName);
     }
 
 }
