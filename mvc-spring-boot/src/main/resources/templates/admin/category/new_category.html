@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>New Category</title>
+</head>
+<body>
+<div class="col-10">
+    <div layout:fragment="content">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <h1>Create Category</h1>
+                <form action="#" th:action="@{/admin/categories/new}" th:object="${category}" method="post">
+                    <div class="form-group">
+                        <label for="name">Category name</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

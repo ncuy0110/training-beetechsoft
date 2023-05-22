@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.dto;
+package com.beetech.mvcspringboot.controller.publics.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

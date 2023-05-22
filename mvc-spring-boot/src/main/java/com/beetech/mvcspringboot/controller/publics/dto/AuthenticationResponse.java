@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.controller.dto;
+package com.beetech.mvcspringboot.controller.publics.dto;
 
 import lombok.*;
 

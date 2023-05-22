@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.controller;
+package com.beetech.mvcspringboot.controller.publics;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +15,6 @@ public class HomeController {
      */
     @GetMapping("/")
     public String getHomePage() {
-        return "home";
+        return "user/index";
     }
 }

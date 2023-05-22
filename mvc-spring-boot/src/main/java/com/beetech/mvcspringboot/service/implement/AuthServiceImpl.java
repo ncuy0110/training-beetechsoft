@@ -1,10 +1,10 @@
 package com.beetech.mvcspringboot.service.implement;
 
-import com.beetech.mvcspringboot.controller.dto.AuthenticationResponse;
-import com.beetech.mvcspringboot.controller.dto.LoginRequest;
+import com.beetech.mvcspringboot.controller.publics.dto.AuthenticationResponse;
+import com.beetech.mvcspringboot.controller.publics.dto.LoginDto;
 import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.security.JwtService;
-import com.beetech.mvcspringboot.service.interfaces.IAuthService;
+import com.beetech.mvcspringboot.service.interfaces.AuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * The type Auth service.
  */
 @Service
-public class AuthServiceImpl implements IAuthService {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -32,7 +32,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponse login(LoginDto request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getUsername(),

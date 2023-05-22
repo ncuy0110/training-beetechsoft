@@ -1,6 +1,6 @@
 package com.beetech.mvcspringboot.dataseed;
 
-import com.beetech.mvcspringboot.constants.RoleConstant;
+import com.beetech.mvcspringboot.constants.RoleEnum;
 import com.beetech.mvcspringboot.model.Role;
 import com.beetech.mvcspringboot.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -25,8 +25,8 @@ public class RoleDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            Role admin = new Role(RoleConstant.ADMIN);
-            Role normal = new Role(RoleConstant.NORMAL);
+            Role admin = new Role(RoleEnum.ADMIN);
+            Role normal = new Role(RoleEnum.NORMAL);
             roleRepository.save(admin);
             roleRepository.save(normal);
         } catch (Exception e) {

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/js/jquery.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="bg-dark col-auto col-md-2 min-vh-100">
+            <div class="bg-dark p-2">
+                <a class="d-flex text-decoration-none align-items-center text-white mt-1">
+                    <span class="fs-4 d-none d-sm-inline">Dashboard</span>
+                </a>
+                <ul class="nav nav-pills flex-column mt-4">
+                    <li class="nav-item">
+                        <a id="category" href="/admin/categories" class="nav-link text-white">
+                            <i class="fa-solid fa-list m-2"></i><span class="fs-4 d-none d-sm-inline">Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a id="product" href="/admin/products" class="nav-link text-white active">
+                            <i class="fa-solid fa-boxes-stacked m-2"></i><span
+                                class="fs-4 d-none d-sm-inline">Product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a id="user" href="#" class="nav-link text-white">
+                            <i class="fa-solid fa-users m-2"></i><span class="fs-4 d-none d-sm-inline">User</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-10">
+            <div layout:fragment="content">
+                <h1>Welcome to Admin Dashboard!</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // $(".nav-item a").on("click", function () {
+    //     $(".nav-item a").removeClass("active");
+    //     $(this).addClass("active");
+    // });
+    const path = window.location.pathname;
+    $(".nav-item a").removeClass("active");
+    if (path.includes("admin/products")) {
+        $("#product").addClass("active");
+    } else if (path.includes("admin/categories")) {
+        $("#category").addClass("active");
+    }
+</script>
+</body>
+</html>

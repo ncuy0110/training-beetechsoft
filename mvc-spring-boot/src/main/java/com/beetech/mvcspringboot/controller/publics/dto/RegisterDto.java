@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.dto;
+package com.beetech.mvcspringboot.controller.publics.dto;
 
 /**
  * The type Register dto.

@@ -1,4 +1,4 @@
-package com.beetech.mvcspringboot.controller;
+package com.beetech.mvcspringboot.controller.publics;
 
 import com.beetech.mvcspringboot.service.implement.TransactionService;
 import org.springframework.http.ResponseEntity;
