@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto=update
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_basic
+    username: root
+    password: Uy050770@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #spring.jpa.show-sql: true
+
+beetech:
+  app:
+    jwtSecret: "955b46b4-0b5e-48c9-896d-b94aaf9fc0cb"
+    jwtExpirationMs: 86400000
