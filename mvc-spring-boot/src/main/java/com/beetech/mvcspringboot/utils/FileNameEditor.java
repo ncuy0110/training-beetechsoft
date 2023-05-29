@@ -10,11 +10,12 @@ public class FileNameEditor {
 
         int dotIndex = fileName.lastIndexOf(".");
         String extension = "";
+        String newFilename = fileName;
         if (dotIndex != -1) {
             extension = fileName.substring(dotIndex);
-            fileName = fileName.substring(0, dotIndex);
+            newFilename = fileName.substring(0, dotIndex);
         }
 
-        return fileName + "_" + formattedDate + extension;
+        return newFilename + "_" + formattedDate + extension;
     }
 }

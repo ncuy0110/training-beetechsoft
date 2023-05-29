@@ -4,6 +4,7 @@ import com.beetech.mvcspringboot.service.interfaces.PaypalService;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaypalServiceImpl implements PaypalService {
     @Value("${paypal.client.id}")
     private String clientId;
@@ -19,10 +21,6 @@ public class PaypalServiceImpl implements PaypalService {
     private static final String PAYPAL_SUCCESS_URL = "pay/success";
     private static final String PAYPAL_CANCEL_URL = "pay/cancel";
     private final APIContext apiContext;
-
-    public PaypalServiceImpl(APIContext apiContext) {
-        this.apiContext = apiContext;
-    }
 
     @Override
     public Payment createPayment(

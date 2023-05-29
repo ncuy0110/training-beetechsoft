@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,10 @@ public class JwtService {
 
 
     @Value("${beetech.app.jwtSecret}")
+    @Setter
     private String SECRET_KEY;
 
+    @Setter
     @Value("${beetech.app.jwtExpirationMs}")
     private Long jwtExpirationMs;
 
@@ -86,7 +89,7 @@ public class JwtService {
      *
      * @param token       the token
      * @param userDetails the user details
-     * @return boolean boolean
+     * @return boolean valid or invalid token
      */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
@@ -95,6 +98,7 @@ public class JwtService {
 
     /**
      * check token is expired
+     *
      * @param token string
      * @return boolean
      */

@@ -8,21 +8,17 @@ import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
 import com.beetech.mvcspringboot.service.interfaces.OrderService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CartService cartService;
-
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, CartService cartService) {
-        this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
-        this.cartService = cartService;
-    }
 
     @Override
     public Order createOrderFromCart(Long userId) {

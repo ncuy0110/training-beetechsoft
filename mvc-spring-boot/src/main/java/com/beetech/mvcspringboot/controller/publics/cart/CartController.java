@@ -10,6 +10,7 @@ import com.beetech.mvcspringboot.service.interfaces.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,12 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cart")
+@RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
     private final ProductService productService;
     private final DiscountService discountService;
 
-    public CartController(CartService cartService, ProductService productService, DiscountService discountService) {
-        this.cartService = cartService;
-        this.productService = productService;
-        this.discountService = discountService;
-    }
 
     @GetMapping("")
     public String getCartPage(

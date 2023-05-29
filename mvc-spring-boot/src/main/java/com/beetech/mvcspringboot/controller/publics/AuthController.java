@@ -2,6 +2,8 @@ package com.beetech.mvcspringboot.controller.publics;
 
 import com.beetech.mvcspringboot.controller.publics.dto.RegisterDto;
 import com.beetech.mvcspringboot.service.interfaces.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,17 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
  * The type Login controller.
  */
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
-
-    /**
-     * Instantiates a new Auth controller.
-     *
-     * @param userService the user service
-     */
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
 
     /**
      * Gets login page.
@@ -52,9 +46,11 @@ public class AuthController {
      * @return the string
      */
     @PostMapping("/register")
-    public String register(@ModelAttribute RegisterDto registerDto) {
+    public String register(
+            @ModelAttribute @Valid RegisterDto registerDto
+    ) {
         try {
-            userService.save(registerDto);
+            userService.register(registerDto);
             return "redirect:/login?register_success";
         } catch (Exception e) {
             e.printStackTrace();

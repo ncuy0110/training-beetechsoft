@@ -5,6 +5,7 @@ import com.beetech.mvcspringboot.controller.publics.cart.dto.SetCartItemDto;
 import com.beetech.mvcspringboot.model.Cart;
 import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +19,9 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1/cart")
+@RequiredArgsConstructor
 public class CartRestController {
     private final CartService cartService;
-
-    public CartRestController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     @PostMapping("")
     public ResponseEntity<?> addToCart(Authentication authentication, @RequestBody AddingCartItemDto cartItemDto) {

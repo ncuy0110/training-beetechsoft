@@ -7,6 +7,7 @@ import com.beetech.mvcspringboot.model.CartKeypair;
 import com.beetech.mvcspringboot.repository.CartRepository;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +20,9 @@ import java.util.Optional;
  * The type Cart service.
  */
 @Service
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
-
-    /**
-     * Instantiates a new Cart service.
-     *
-     * @param cartRepository the cart repository
-     */
-    public CartServiceImpl(CartRepository cartRepository) {
-        this.cartRepository = cartRepository;
-    }
 
     @Override
     public void synchronizeCart(Long userId, Map<Long, Long> carts) {

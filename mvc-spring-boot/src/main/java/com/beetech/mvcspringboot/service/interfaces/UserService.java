@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService extends UserDetailsService {
-    User save(RegisterDto registerDto);
+    User register(RegisterDto registerDto);
 
     @Override
     @Transactional
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    void deleteUserById(Long userId);
 }

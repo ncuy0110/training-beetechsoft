@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,21 +21,11 @@ import java.io.IOException;
  * The type Jwt authentication filter.
  */
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserServiceImpl userService;
 
     private final JwtService jwtService;
-
-    /**
-     * Instantiates a new Jwt authentication filter.
-     *
-     * @param userService the user service
-     * @param jwtService  the jwt service
-     */
-    public JwtAuthenticationFilter(UserServiceImpl userService, JwtService jwtService) {
-        this.userService = userService;
-        this.jwtService = jwtService;
-    }
 
     @Override
     protected void doFilterInternal(
@@ -62,9 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error");
-            return;
         }
         filterChain.doFilter(request, response);
     }

@@ -1,29 +1,35 @@
 package com.beetech.mvcspringboot.controller.publics.dto;
 
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
 
 /**
  * The type Register dto.
  */
 @ToString
-public class RegisterDto extends LoginDto{
+@RequiredArgsConstructor
+@Data
+public class RegisterDto {
     @NonNull
-    @Getter
-    @Setter
-    private String repeatPassword;
+    @NotBlank
+    @Size(min = 5, message = "{validation.name.size.too_short}")
+    @Size(max = 50, message = "{validation.name.size.too_long}")
+    private String username;
 
-    /**
-     * Instantiates a new Register dto.
-     *
-     * @param username       the username
-     * @param password       the password
-     * @param repeatPassword the repeat password
-     */
-    public RegisterDto(String username, String password, @NonNull String repeatPassword) {
-        super(username, password);
-        this.repeatPassword = repeatPassword;
-    }
+    @NonNull
+    @NotBlank
+    @Size(min = 5, message = "{validation.name.size.too_short}")
+    @Size(max = 50, message = "{validation.name.size.too_long}")
+    private String password;
+
+    @NonNull
+    @NotBlank
+    @Size(min = 5, message = "{validation.name.size.too_short}")
+    @Size(max = 50, message = "{validation.name.size.too_long}")
+    private String repeatPassword;
 }

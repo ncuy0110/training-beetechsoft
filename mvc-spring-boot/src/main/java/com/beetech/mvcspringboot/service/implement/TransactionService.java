@@ -2,6 +2,7 @@ package com.beetech.mvcspringboot.service.implement;
 
 import com.beetech.mvcspringboot.model.Transaction;
 import com.beetech.mvcspringboot.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,12 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-
-    public TransactionService(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
 
     public Optional<Transaction> findOne(Long id) {
         return transactionRepository.findById(id);

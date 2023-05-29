@@ -5,6 +5,7 @@ import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.repository.RoleRepository;
 import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,23 +13,11 @@ import org.springframework.stereotype.Component;
  * The type User data loader.
  */
 @Component
+@RequiredArgsConstructor
 public class UserDataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final CustomPasswordEncoder passwordEncoder;
-
-    /**
-     * Instantiates a new User data loader.
-     *
-     * @param userRepository  the user repository
-     * @param roleRepository  the role repository
-     * @param passwordEncoder the password encoder
-     */
-    public UserDataLoader(UserRepository userRepository, RoleRepository roleRepository, CustomPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public void run(String... args) {

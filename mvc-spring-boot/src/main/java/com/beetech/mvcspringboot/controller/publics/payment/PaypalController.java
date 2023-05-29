@@ -10,6 +10,7 @@ import com.beetech.mvcspringboot.service.interfaces.PaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,18 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class PaypalController {
     private final PaypalService paypalService;
     private final CartService cartService;
     private final OrderService orderService;
     private final DiscountService discountService;
-
-    public PaypalController(PaypalService paypalService, CartService cartService, OrderService orderService, DiscountService discountService) {
-        this.paypalService = paypalService;
-        this.cartService = cartService;
-        this.orderService = orderService;
-        this.discountService = discountService;
-    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @PostMapping("/pay")

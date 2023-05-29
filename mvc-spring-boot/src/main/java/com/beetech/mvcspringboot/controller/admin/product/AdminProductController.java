@@ -6,6 +6,7 @@ import com.beetech.mvcspringboot.service.implement.CategoryServiceImpl;
 import com.beetech.mvcspringboot.service.implement.ProductServiceImpl;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/products")
+@RequiredArgsConstructor
 public class AdminProductController {
     private final ProductServiceImpl productService;
     private final CategoryServiceImpl categoryService;
-
-    public AdminProductController(ProductServiceImpl productService, CategoryServiceImpl categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
-    }
 
     @GetMapping("")
     public String getAdminProductPage(Model model) {
