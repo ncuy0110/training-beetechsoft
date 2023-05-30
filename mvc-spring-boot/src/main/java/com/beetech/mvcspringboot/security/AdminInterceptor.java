@@ -5,11 +5,8 @@ import com.beetech.mvcspringboot.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.nio.file.AccessDeniedException;
 
 @Component
 public class AdminInterceptor implements HandlerInterceptor {

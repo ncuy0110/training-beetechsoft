@@ -7,6 +7,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 
 @Entity
 @Table(name = "product_image")
@@ -14,10 +17,11 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class ProductImage extends FileAttachment {
+public class ProductImage extends FileAttachment implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    @NonNull
     private Product product;
 
     public ProductImage(String filename, String originalName, String contentType, Product product) {

@@ -20,7 +20,7 @@ class UserServiceTest extends BaseServiceTest {
 
     @Test
     @DisplayName("Test for register method")
-    public void testRegister_withValidInfo_shouldReturnNewUser() {
+    void testRegisterWithValidInfoShouldReturnNewUser() {
         String username = "test_username";
         String password = "test1";
         RegisterDto registerDto = new RegisterDto(username, password, password);

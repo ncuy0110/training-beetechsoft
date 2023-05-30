@@ -1,6 +1,6 @@
 package com.beetech.mvcspringboot.service.implement;
 
-import com.beetech.mvcspringboot.model.Cart;
+import com.beetech.mvcspringboot.model.CartItem;
 import com.beetech.mvcspringboot.model.Order;
 import com.beetech.mvcspringboot.model.OrderDetail;
 import com.beetech.mvcspringboot.repository.OrderRepository;
@@ -9,13 +9,17 @@ import com.beetech.mvcspringboot.service.interfaces.CartService;
 import com.beetech.mvcspringboot.service.interfaces.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerErrorException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CartService cartService;
@@ -23,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createOrderFromCart(Long userId) {
         try {
-            List<Cart> cartItems = cartService.findAllByUserId(userId);
+            List<CartItem> cartItemItems = cartService.findAllByUserId(userId);
 
             Double total = cartService.getTotalByUserId(userId);
             Order order = Order.builder()
@@ -34,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
                     .totalAmountAfterDiscount(total)
                     .build();
 
-            List<OrderDetail> orderDetails = cartItems
+            List<OrderDetail> orderDetails = cartItemItems
                     .stream()
                     .map(cart -> OrderDetail.builder()
                             .order(order)
@@ -47,8 +51,10 @@ public class OrderServiceImpl implements OrderService {
             order.setOrderDetails(orderDetails);
             return order;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Create order from cart error: {}", e.getMessage());
+            }
+            throw new ServerErrorException("Server error: ", e);
         }
     }
 

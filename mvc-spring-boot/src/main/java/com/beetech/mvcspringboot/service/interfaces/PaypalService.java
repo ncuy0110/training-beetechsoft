@@ -10,16 +10,8 @@ import com.paypal.base.rest.PayPalRESTException;
 public interface PaypalService {
     /**
      * Create payment payment.
-     *
-     * @param total       the total
-     * @param currency    the currency
-     * @param method      the method
-     * @param intent      the intent
-     * @param description the description
-     * @param cancelUrl   the cancel url
-     * @param successUrl  the success url
      * @return the payment
-     * @throws PayPalRESTException the pay pal rest exception
+     * @throws PayPalRESTException the PayPal rest exception
      */
     Payment createPayment(Double total, String currency, String method, String intent,
                           String description, String cancelUrl, String successUrl)

@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,8 +16,11 @@ import java.util.Set;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -44,44 +49,40 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Collection<Cart> carts = new ArrayList<>();
+    private Collection<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Collection<Order> orders;
 
-    public User() {
-
+    public void setCartItems(Collection<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
-    public void setCarts(Collection<Cart> carts) {
-        this.carts = carts;
-    }
-
-    public Collection<Cart> getCarts() {
-        return carts;
+    public Collection<CartItem> getCartItems() {
+        return this.cartItems;
     }
 
     public void addRole(Role role) {
-        roles.add(role);
+        this.roles.add(role);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return this.roles;
     }
 
     public void clearCart() {
-        carts = new ArrayList<>();
+        this.cartItems = new ArrayList<>();
     }
 
     @Override
     public @NonNull String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
     public @NonNull String getUsername() {
-        return username;
+        return this.username;
     }
 
     @Override

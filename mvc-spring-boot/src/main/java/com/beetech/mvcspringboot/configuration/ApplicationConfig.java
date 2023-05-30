@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+    /**
+     * inject user repository
+     */
     private final UserRepository userRepository;
 
 

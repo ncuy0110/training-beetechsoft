@@ -15,9 +15,16 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @ToString
 public class LoginDto {
+    /**
+     * username String
+     */
     @NonNull
     @Size(min = 5, max = 50)
     private String username;
+
+    /**
+     * password String
+     */
     @NonNull
     @Size(min = 5, max = 50)
     private String password;

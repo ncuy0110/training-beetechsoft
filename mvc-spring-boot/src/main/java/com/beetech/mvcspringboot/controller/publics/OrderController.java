@@ -9,12 +9,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * The type Order controller.
+ */
 @Controller
 @RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
+    /**
+     * inject order service
+     */
     private final OrderService orderService;
 
+    /**
+     * Gets all order.
+     *
+     * @param model          the model
+     * @param authentication the authentication
+     * @return the all order
+     */
     @GetMapping("")
     public String getAllOrder(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();

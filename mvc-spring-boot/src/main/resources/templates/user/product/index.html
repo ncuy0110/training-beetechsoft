@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Product</title>
-    <script src="/js/cart.js"></script>
+    <script src="/js/cartItem.js"></script>
     <script>
         const getValue = (sel) => {
             if (sel.value !== "all") {
@@ -56,12 +56,12 @@
                         <button sec:authorize="isAuthenticated()"
                                 th:onclick="'addToCartAuth(\'' + ${product.getId()} + '\', \'' + 1 + '\')'" type="button"
                                 class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
+                            <i class="fas fa-cartItem-plus"></i> Add to Cart
                         </button>
                         <button sec:authorize="!isAuthenticated()"
                                 th:onclick="'addToCartUnAuth(\'' + ${product.getId()} + '\', \'' + 1 + '\')'" type="button"
                                 class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
+                            <i class="fas fa-cartItem-plus"></i> Add to Cart
                         </button>
                     </div>
                 </div>

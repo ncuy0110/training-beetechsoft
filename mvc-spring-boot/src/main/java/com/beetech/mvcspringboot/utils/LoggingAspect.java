@@ -13,20 +13,26 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggingAspect {
-    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
 
     @Before("execution(* com.beetech.mvcspringboot..*Controller.*(..))")
     public void logBefore(JoinPoint joinPoint) {
-        logger.info("Received request: " + joinPoint.getSignature());
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Received request: {}", joinPoint.getSignature());
+        }
     }
 
     @AfterThrowing(pointcut = "execution(* com.beetech.mvcspringboot..*Controller.*(..))", throwing = "ex")
     public void logError(Exception ex) {
-        logger.error("An error occurred: " + ex.getMessage(), ex);
+        if (LOGGER.isErrorEnabled()) {
+            LOGGER.error("An error occurred: " + ex.getMessage(), ex);
+        }
     }
 
     @AfterReturning(pointcut = "execution(* com.beetech.mvcspringboot..*Controller.*(..))", returning = "result")
     public void logSuccess(Object result) {
-        logger.info("Method executed successfully with result: " + result);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Method executed successfully with result: {}", result);
+        }
     }
 }

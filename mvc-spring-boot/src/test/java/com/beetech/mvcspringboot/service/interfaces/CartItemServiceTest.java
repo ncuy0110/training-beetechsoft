@@ -1,7 +1,6 @@
 package com.beetech.mvcspringboot.service.interfaces;
 
-import com.beetech.mvcspringboot.controller.admin.product.dto.CreateProductDto;
-import com.beetech.mvcspringboot.model.Cart;
+import com.beetech.mvcspringboot.model.CartItem;
 import com.beetech.mvcspringboot.model.CartKeypair;
 import com.beetech.mvcspringboot.model.Category;
 import com.beetech.mvcspringboot.model.Product;
@@ -24,35 +23,35 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-class CartServiceTest extends BaseServiceTest {
+class CartItemServiceTest extends BaseServiceTest {
     @Mock
     CartServiceImpl cartService;
     @Mock
     CartRepository cartRepository;
 
-    List<Cart> carts;
+    List<CartItem> cartItems;
 
     @BeforeEach
     void setUp() {
         super.setUp();
         cartRepository = mock(CartRepository.class);
-        carts = new ArrayList<>();
+        cartItems = new ArrayList<>();
 
 
         lenient().when(cartRepository.findByUserIdAndProductId(any(Long.class), any(Long.class)))
-                .then((Answer<Optional<Cart>>) invocationOnMock -> {
+                .then((Answer<Optional<CartItem>>) invocationOnMock -> {
                     Long userId = invocationOnMock.getArgument(0);
                     Long productId = invocationOnMock.getArgument(1);
-                    return carts.stream()
+                    return cartItems.stream()
                             .filter(cart
                                     -> cart.getId().getProductId() == productId && cart.getId().getUserid() == userId)
                             .findFirst();
                 });
 
         lenient().when(cartRepository.findAllByUserId(any(Long.class)))
-                .then((Answer<List<Cart>>) invocationOnMock -> {
+                .then((Answer<List<CartItem>>) invocationOnMock -> {
                     Long userId = invocationOnMock.getArgument(0);
-                    return carts.stream().filter(cart ->
+                    return cartItems.stream().filter(cart ->
                             cart.getId().getUserid() == userId).toList();
                 });
 
@@ -63,13 +62,13 @@ class CartServiceTest extends BaseServiceTest {
     void findAllByUserId() {
         var actual = cartService.findAllByUserId(1L);
         assertEquals(1, actual.size());
-        assertEquals(carts.get(0), actual.get(0));
+        assertEquals(cartItems.get(0), actual.get(0));
     }
 
     @Test
     void findOneByUserAndProduct() {
-        Cart actual = cartService.findOneByUserAndProduct(1L, 1L);
-        assertEquals(carts.get(0), actual);
+        CartItem actual = cartService.findOneByUserAndProduct(1L, 1L);
+        assertEquals(cartItems.get(0), actual);
     }
 
     @Test
@@ -84,7 +83,7 @@ class CartServiceTest extends BaseServiceTest {
                 .images(new ArrayList<>())
                 .build();
 
-        carts.add(Cart.builder()
+        cartItems.add(CartItem.builder()
                 .quantity(1L)
                 .id(new CartKeypair(1L, 1L))
                 .product(product)
@@ -105,13 +104,13 @@ class CartServiceTest extends BaseServiceTest {
                 .images(new ArrayList<>())
                 .build();
 
-        int size = carts.size();
-        carts.add(Cart.builder()
+        int size = cartItems.size();
+        cartItems.add(CartItem.builder()
                 .quantity(1L)
                 .id(new CartKeypair(1L, 1L))
                 .product(product)
                 .build());
-        assertEquals(size+1, carts.size());
+        assertEquals(size + 1, cartItems.size());
     }
 
 }

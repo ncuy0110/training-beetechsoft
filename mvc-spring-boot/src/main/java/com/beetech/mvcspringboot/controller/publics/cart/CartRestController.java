@@ -2,7 +2,7 @@ package com.beetech.mvcspringboot.controller.publics.cart;
 
 import com.beetech.mvcspringboot.controller.publics.cart.dto.AddingCartItemDto;
 import com.beetech.mvcspringboot.controller.publics.cart.dto.SetCartItemDto;
-import com.beetech.mvcspringboot.model.Cart;
+import com.beetech.mvcspringboot.model.CartItem;
 import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
 import lombok.RequiredArgsConstructor;
@@ -17,31 +17,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * The type Cart rest controller.
+ */
 @Controller
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartRestController {
+    /**
+     * inject cart service
+     */
     private final CartService cartService;
 
+    /**
+     * Add to cart response entity.
+     *
+     * @param authentication the authentication
+     * @param cartItemDto    the cart item dto
+     * @return the response entity
+     */
     @PostMapping("")
-    public ResponseEntity<?> addToCart(Authentication authentication, @RequestBody AddingCartItemDto cartItemDto) {
+    public ResponseEntity<Object> addToCart(Authentication authentication, @RequestBody AddingCartItemDto cartItemDto) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        cartService.addToCart(((User) userDetails).getId(), cartItemDto);
+        this.cartService.addToCart(((User) userDetails).getId(), cartItemDto);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Gets all cart items.
+     *
+     * @param authentication the authentication
+     * @return the all cart items
+     */
     @GetMapping("")
-    public ResponseEntity<List<Cart>> getAllCartItems(Authentication authentication) {
+    public ResponseEntity<List<CartItem>> getAllCartItems(Authentication authentication) {
         var userDetails = (UserDetails) authentication.getPrincipal();
-        var cartItems = cartService.findAllByUserId(((User) userDetails).getId());
+        var cartItems = this.cartService.findAllByUserId(((User) userDetails).getId());
         return ResponseEntity.ok(cartItems);
     }
 
+    /**
+     * Sets quantity.
+     *
+     * @param authentication the authentication
+     * @param cartItemDto    the cart item dto
+     * @return the quantity
+     */
     @PostMapping("/quantity")
-    public ResponseEntity<?> setQuantity(Authentication authentication, @RequestBody SetCartItemDto cartItemDto) {
+    public ResponseEntity<Object> setQuantity(Authentication authentication, @RequestBody SetCartItemDto cartItemDto) {
         var userDetails = (UserDetails) authentication.getPrincipal();
         var user = (User) userDetails;
-        cartService.setQuantity(user.getId(), cartItemDto);
+        this.cartService.setQuantity(user.getId(), cartItemDto);
         return ResponseEntity.ok().build();
     }
 }

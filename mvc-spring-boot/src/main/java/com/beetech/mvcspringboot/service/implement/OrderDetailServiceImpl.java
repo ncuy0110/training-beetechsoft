@@ -1,13 +1,9 @@
 package com.beetech.mvcspringboot.service.implement;
 
 import com.beetech.mvcspringboot.service.interfaces.OrderDetailService;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The type Order detail service.
+ */
 public class OrderDetailServiceImpl implements OrderDetailService {
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void save(Long userId) {
-
-    }
 }

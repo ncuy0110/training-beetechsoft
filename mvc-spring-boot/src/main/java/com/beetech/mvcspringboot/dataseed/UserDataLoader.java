@@ -15,17 +15,29 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserDataLoader implements CommandLineRunner {
+    /**
+     * inject user repository
+     */
     private final UserRepository userRepository;
+
+    /**
+     * inject role repository
+     */
     private final RoleRepository roleRepository;
+
+    /**
+     * inject custom password encoder
+     */
     private final CustomPasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
-        if (userRepository.findUserByUsername("admin").isEmpty()) {
-            User user = new User("admin", passwordEncoder.encode("admin"));
-            user.addRole(roleRepository.findRoleByName(RoleEnum.ADMIN));
-            user.addRole(roleRepository.findRoleByName(RoleEnum.NORMAL));
-            userRepository.save(user);
+        String username = "admin";
+        if (this.userRepository.findUserByUsername(username).isEmpty()) {
+            User user = new User(username, this.passwordEncoder.encode("admin"));
+            user.addRole(this.roleRepository.findRoleByName(RoleEnum.ADMIN));
+            user.addRole(this.roleRepository.findRoleByName(RoleEnum.NORMAL));
+            this.userRepository.save(user);
         }
     }
 }

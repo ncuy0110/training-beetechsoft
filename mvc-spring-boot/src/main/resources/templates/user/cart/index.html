@@ -36,28 +36,28 @@
 <div layout:fragment="content">
     <div class="container">
         <h1 class="mb-4">Your Cart</h1>
-        <h3 sec:authorize="isAuthenticated()" th:if="${carts.size() == 0}" class="row">
-            No have added cart item
+        <h3 sec:authorize="isAuthenticated()" th:if="${cartItems.size() == 0}" class="row">
+            No have added cartItem item
         </h3>
-        <div sec:authorize="isAuthenticated()" th:if="${carts.size() > 0}" class="row">
+        <div sec:authorize="isAuthenticated()" th:if="${cartItems.size() > 0}" class="row">
             <div class="col-lg-8">
-                <div th:each="cart : ${carts}" class="card mb-3">
+                <div th:each="cartItem : ${cartItems}" class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-3">
-                            <img class="img-fluid" th:src="'/uploads/' + ${cart.getProduct().getFirstImagePath()}"
+                            <img class="img-fluid" th:src="'/uploads/' + ${cartItem.getProduct().getFirstImagePath()}"
                                  alt="Product Image" style="height: 150px; width: 150px">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h5 class="card-title" th:text="'Name: ' + ${cart.getProduct().getName()}">Product
+                                <h5 class="card-title" th:text="'Name: ' + ${cartItem.getProduct().getName()}">Product
                                     Name</h5>
-                                <p class="card-text mb-1" th:text="'Price: ' + ${cart.getProduct().getPrice()}">Price:
+                                <p class="card-text mb-1" th:text="'Price: ' + ${cartItem.getProduct().getPrice()}">Price:
                                     $100</p>
                                 <p class="card-text mb-0"
-                                   th:text="'Quantity: ' + ${cart.getQuantity()}">
+                                   th:text="'Quantity: ' + ${cartItem.getQuantity()}">
                                     Total Price: $100</p>
                                 <p class="card-text mb-0"
-                                   th:text="'Total Price: $' + ${cart.getQuantity() * cart.getProduct().getPrice()}">
+                                   th:text="'Total Price: $' + ${cartItem.getQuantity() * cartItem.getProduct().getPrice()}">
                                     Total Price: $100</p>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <h5 class="card-title">Summary</h5>
                         <form th:action="@{/pay}" method="post">
                             <p class="card-text" id="total-amount"
-                               th:text="'Total: $' + ${#aggregates.sum(carts.![getTotal])}">Total: $500</p>
+                               th:text="'Total: $' + ${#aggregates.sum(cartItems.![getTotal])}">Total: $500</p>
                             <button type="submit" class="btn btn-primary">Checkout</button>
 
                             <div class="form-group">
@@ -91,12 +91,12 @@
         </div>
 
         <!--        not authenticated yet-->
-        <h3 sec:authorize="!isAuthenticated()" th:if="${cartItems.size() == 0}" class="row">
-            No have added cart item
+        <h3 sec:authorize="!isAuthenticated()" th:if="${cartItemItems.size() == 0}" class="row">
+            No have added cartItem item
         </h3>
-        <div sec:authorize="!isAuthenticated()" th:if="${cartItems.size() > 0}" class="row">
+        <div sec:authorize="!isAuthenticated()" th:if="${cartItemItems.size() > 0}" class="row">
             <div class="col-lg-8">
-                <div th:each="cartItem : ${cartItems}" class="card mb-3">
+                <div th:each="cartItem : ${cartItemItems}" class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-3">
                             <img class="img-fluid" th:src="'/uploads/' + ${cartItem.getProduct().getFirstImagePath()}"
@@ -124,7 +124,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Summary</h5>
-                        <p class="card-text" th:text="'Total: $' + ${#aggregates.sum(cartItems.![getTotal])}">Total:
+                        <p class="card-text" th:text="'Total: $' + ${#aggregates.sum(cartItemItems.![getTotal])}">Total:
                             $500</p>
                         <a href="/login" class="btn btn-primary">Checkout</a>
                     </div>
