@@ -2,10 +2,7 @@ package com.beetech.mvcspringboot.model;
 
 import com.beetech.mvcspringboot.utils.DateTimeFormatterUtil;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 @RequiredArgsConstructor
+@ToString
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +33,7 @@ public class Category {
     private LocalDateTime updated;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<Product> products = new LinkedHashSet<>();
 
     public Category() {

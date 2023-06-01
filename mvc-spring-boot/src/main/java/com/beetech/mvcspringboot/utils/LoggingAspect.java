@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggingAspect {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     @Before("execution(* com.beetech.mvcspringboot..*Controller.*(..))")
     public void logBefore(JoinPoint joinPoint) {

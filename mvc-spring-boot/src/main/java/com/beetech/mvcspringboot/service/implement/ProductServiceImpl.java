@@ -7,6 +7,7 @@ import com.beetech.mvcspringboot.repository.CategoryRepository;
 import com.beetech.mvcspringboot.repository.ProductRepository;
 import com.beetech.mvcspringboot.service.interfaces.ProductImageService;
 import com.beetech.mvcspringboot.service.interfaces.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageService productImageService;
-
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ProductImageService productImageService) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-        this.productImageService = productImageService;
-    }
 
     @Override
     public List<Product> findAll() {

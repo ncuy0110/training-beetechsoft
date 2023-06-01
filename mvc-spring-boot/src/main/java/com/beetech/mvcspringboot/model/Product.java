@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "product")
@@ -23,7 +24,6 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
 
     @Column(name = "name", nullable = false)
     @NonNull

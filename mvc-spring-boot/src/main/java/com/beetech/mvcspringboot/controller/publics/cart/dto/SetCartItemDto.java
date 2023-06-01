@@ -1,8 +1,8 @@
 package com.beetech.mvcspringboot.controller.publics.cart.dto;
 
+import jakarta.validation.constraints.Min;
 import lombok.NonNull;
 
-import javax.validation.constraints.Min;
 
 public class SetCartItemDto extends AddingCartItemDto {
     public SetCartItemDto(@NonNull @Min(1) Long productId, @NonNull @Min(1) Long quantity) {

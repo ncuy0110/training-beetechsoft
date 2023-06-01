@@ -7,6 +7,7 @@ import com.beetech.mvcspringboot.service.interfaces.CartService;
 import com.beetech.mvcspringboot.service.interfaces.DiscountService;
 import com.beetech.mvcspringboot.service.interfaces.ProductService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,17 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DiscountServiceImpl implements DiscountService {
     private final DiscountRepository discountRepository;
     private final ProductService productService;
     private final CartService cartService;
 
-
-    public DiscountServiceImpl(DiscountRepository discountRepository, ProductService productService, CartService cartService) {
-        this.discountRepository = discountRepository;
-        this.productService = productService;
-        this.cartService = cartService;
-    }
 
     @Override
     public List<Discount> findAll() {

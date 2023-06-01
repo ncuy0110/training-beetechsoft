@@ -2,6 +2,7 @@ package com.beetech.mvcspringboot.controller.admin.category;
 
 import com.beetech.mvcspringboot.controller.admin.category.dto.CreateCategoryDto;
 import com.beetech.mvcspringboot.service.implement.CategoryServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/categories")
+@RequiredArgsConstructor
 public class AdminCategoryController {
     private final CategoryServiceImpl categoryService;
-
-    public AdminCategoryController(CategoryServiceImpl categoryService) {
-        this.categoryService = categoryService;
-    }
 
     @GetMapping("")
     public String getCategoryPage(Model model) {

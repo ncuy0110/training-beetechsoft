@@ -1,9 +1,9 @@
 package com.beetech.mvcspringboot.controller.publics.cart.dto;
 
 import com.beetech.mvcspringboot.model.Product;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
-import javax.validation.constraints.Min;
 
 @Data
 @AllArgsConstructor

@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @ToString
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor(force = true)

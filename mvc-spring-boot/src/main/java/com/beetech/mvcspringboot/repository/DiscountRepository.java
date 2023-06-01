@@ -13,6 +13,9 @@ import java.util.List;
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
     List<Discount> findAllByStartTimeBeforeAndEndTimeAfter(LocalDateTime startTime, LocalDateTime endTime);
 
+    // 2 products,
+    // dem so san pham o trong gio hang, ma no nam trong list product cua discount
+//    discoutn co spA, spB, cart: spA, spB, spC, - spA, spB cung nam trong discount =>
     @Query(value = "SELECT d FROM Discount d WHERE size(d.products) = "
             + "(SELECT count(c.product) FROM Cart c WHERE c.user.id = :userId and c.quantity > 0 "
             + "AND c.product member of d.products) AND d.startTime < :now and d.endTime > :now")

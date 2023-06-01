@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
 
+import javax.validation.constraints.Size;
+
+
 /**
  * The type Login dto.
  */
@@ -13,7 +16,9 @@ import lombok.ToString;
 @ToString
 public class LoginDto {
     @NonNull
+    @Size(min = 5, max = 50)
     private String username;
     @NonNull
+    @Size(min = 5, max = 50)
     private String password;
 }

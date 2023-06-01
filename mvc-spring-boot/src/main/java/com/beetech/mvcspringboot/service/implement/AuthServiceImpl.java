@@ -5,31 +5,23 @@ import com.beetech.mvcspringboot.controller.publics.dto.LoginDto;
 import com.beetech.mvcspringboot.repository.UserRepository;
 import com.beetech.mvcspringboot.security.JwtService;
 import com.beetech.mvcspringboot.service.interfaces.AuthService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The type Auth service.
  */
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-
-    /**
-     * Instantiates a new Auth service.
-     *
-     * @param userRepository        the user repository
-     * @param authenticationManager the authentication manager
-     * @param jwtService            the jwt service
-     */
-    public AuthServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-    }
 
     @Override
     public AuthenticationResponse login(LoginDto request) {
@@ -38,15 +30,15 @@ public class AuthServiceImpl implements AuthService {
                     request.getUsername(),
                     request.getPassword()
             ));
+            var user = userRepository.findUserByUsername(request.getUsername()).orElseThrow(()
+                    -> new EntityNotFoundException("User not found!"));
+
+            var token = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                    .accessToken(token)
+                    .build();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password is incorrect!");
         }
-
-
-        var user = userRepository.findUserByUsername(request.getUsername()).orElseThrow();
-        var token = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .accessToken(token)
-                .build();
     }
 }

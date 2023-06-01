@@ -3,6 +3,7 @@ package com.beetech.mvcspringboot.controller.admin.discount;
 import com.beetech.mvcspringboot.controller.admin.discount.dto.CreateDiscountDto;
 import com.beetech.mvcspringboot.service.interfaces.DiscountService;
 import com.beetech.mvcspringboot.service.interfaces.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/discounts")
+@RequiredArgsConstructor
 public class AdminDiscountController {
     private final DiscountService discountService;
     private final ProductService productService;
-
-    public AdminDiscountController(DiscountService discountService, ProductService productService) {
-        this.discountService = discountService;
-        this.productService = productService;
-    }
 
     @GetMapping("")
     public String getDiscountPage(Model model) {

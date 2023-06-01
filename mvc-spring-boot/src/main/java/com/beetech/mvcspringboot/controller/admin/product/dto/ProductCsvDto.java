@@ -1,12 +1,10 @@
 package com.beetech.mvcspringboot.controller.admin.product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
+@Builder
 @ToString
 public class ProductCsvDto {
     @NonNull

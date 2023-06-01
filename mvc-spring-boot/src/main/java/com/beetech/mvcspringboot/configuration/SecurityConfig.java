@@ -5,6 +5,7 @@ import com.beetech.mvcspringboot.security.AuthenticationSuccessHandler;
 import com.beetech.mvcspringboot.security.JwtAuthenticationFilter;
 import com.beetech.mvcspringboot.service.implement.UserServiceImpl;
 import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,30 +24,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final UserServiceImpl userService;
     private final CustomPasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    /**
-     * Instantiates a new Security config.
-     *
-     * @param userService                  the user service
-     * @param passwordEncoder              the password encoder
-     * @param jwtAuthenticationFilter      jwt filter
-     * @param authenticationSuccessHandler handler on login success
-     */
-    public SecurityConfig(
-            UserServiceImpl userService,
-            CustomPasswordEncoder passwordEncoder,
-            JwtAuthenticationFilter jwtAuthenticationFilter,
-            AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-    }
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
