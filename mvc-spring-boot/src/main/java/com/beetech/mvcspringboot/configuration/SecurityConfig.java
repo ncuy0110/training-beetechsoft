@@ -26,23 +26,48 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    /**
+     * inject user service bean
+     */
     private final UserServiceImpl userService;
+    /**
+     * inject custom password encoder bean
+     */
     private final CustomPasswordEncoder passwordEncoder;
+    /**
+     * inject jwt authentication filter bean
+     */
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    /**
+     * inject authentication success handler
+     */
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    /**
+     * Auth manager authentication manager.
+     *
+     * @param http               the http
+     * @param userDetailsService the user details service
+     * @return the authentication manager
+     * @throws Exception the exception
+     */
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder).and().build();
+                .passwordEncoder(this.passwordEncoder).and().build();
     }
 
+    /**
+     * Authentication provider dao authentication provider.
+     *
+     * @return the dao authentication provider
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(passwordEncoder);
+        auth.setUserDetailsService(this.userService);
+        auth.setPasswordEncoder(this.passwordEncoder);
         return auth;
     }
 
@@ -55,12 +80,9 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.cors().and().csrf().disable();
         http.cors().disable();
 
-        http.csrf(httpSecurityCsrfConfigurer -> {
-            httpSecurityCsrfConfigurer.ignoringRequestMatchers("/api/v1/**");
-        });
+        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/api/v1/**"));
 
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/admin/**")
@@ -80,7 +102,7 @@ public class SecurityConfig {
         });
 
         http.formLogin().loginPage("/login")
-                .successHandler(authenticationSuccessHandler)
+                .successHandler(this.authenticationSuccessHandler)
                 .permitAll()
                 .and()
                 .requestCache()
@@ -110,7 +132,7 @@ public class SecurityConfig {
                 .httpBasic()
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

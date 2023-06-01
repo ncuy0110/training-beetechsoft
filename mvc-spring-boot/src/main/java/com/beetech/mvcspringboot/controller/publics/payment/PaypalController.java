@@ -11,6 +11,8 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,15 +22,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ServerErrorException;
 
+/**
+ * The type Paypal controller.
+ */
 @Controller
 @RequiredArgsConstructor
 public class PaypalController {
+    /**
+     * logger
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaypalController.class);
+
+    /**
+     * inject PayPal service
+     */
     private final PaypalService paypalService;
+
+    /**
+     * inject cart service
+     */
     private final CartService cartService;
+
+    /**
+     * inject order service
+     */
     private final OrderService orderService;
+
+    /**
+     * inject discount service
+     */
     private final DiscountService discountService;
 
+    /**
+     * Payment string.
+     *
+     * @param dto            the dto
+     * @param authentication the authentication
+     * @return the string
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @PostMapping("/pay")
     public String payment(@ModelAttribute CheckoutDto dto, Authentication authentication) {
@@ -60,17 +93,25 @@ public class PaypalController {
                 }
             }
         } catch (PayPalRESTException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Payment error: {}", e.getMessage());
+            }
+            throw new ServerErrorException("Server error", e);
         }
         return "redirect:/";
     }
 
+    /**
+     * Success pay string.
+     *
+     * @param paymentId the payment id
+     * @param payerID   the payer id
+     * @return the string
+     */
     @GetMapping("pay/success")
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerID) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerID);
-            System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
                 Order order = orderService.findByPaymentId(paymentId);
                 order.setPaid(true);
@@ -80,7 +121,9 @@ public class PaypalController {
                 return "redirect:/order";
             }
         } catch (PayPalRESTException e) {
-            throw new RuntimeException(e);
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Error: {}", e.getMessage());
+            }
         }
         return "redirect:/";
     }

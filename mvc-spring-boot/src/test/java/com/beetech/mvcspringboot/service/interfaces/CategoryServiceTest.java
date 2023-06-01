@@ -23,12 +23,12 @@ class CategoryServiceTest extends BaseServiceTest {
     }
 
     @Test
-    void findAll_ShouldReturnListCategory() {
+    void findAllShouldReturnListCategory() {
         Assertions.assertEquals(categories.size(), categoryService.findAll().size());
     }
 
     @Test
-    void create_WhenValidCategoryInfo() {
+    void createWhenValidCategoryInfo() {
         var oldLengthOfCategories = categories.size();
         assertDoesNotThrow(() -> categoryService.create("Category test"));
         var newLengthOfCategories = categories.size();

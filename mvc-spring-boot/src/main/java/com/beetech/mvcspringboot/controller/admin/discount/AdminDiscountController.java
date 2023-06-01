@@ -11,25 +11,52 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * The type Admin discount controller.
+ */
 @Controller
 @RequestMapping("/admin/discounts")
 @RequiredArgsConstructor
 public class AdminDiscountController {
+    /**
+     * inject discount service
+     */
     private final DiscountService discountService;
+    /**
+     * inject product service
+     */
     private final ProductService productService;
 
+    /**
+     * Gets discount page.
+     *
+     * @param model the model
+     * @return the discount page
+     */
     @GetMapping("")
     public String getDiscountPage(Model model) {
         model.addAttribute("discounts", discountService.findAll());
         return "admin/discount/index";
     }
 
+    /**
+     * Gets new discount page.
+     *
+     * @param model the model
+     * @return the new discount page
+     */
     @GetMapping("/new")
     public String getNewDiscountPage(Model model) {
         model.addAttribute("products", productService.findAll());
         return "admin/discount/new_discount";
     }
 
+    /**
+     * Create discount string.
+     *
+     * @param discountDto the discount dto
+     * @return the string
+     */
     @PostMapping("/new")
     public String createDiscount(@ModelAttribute CreateDiscountDto discountDto) {
         try {

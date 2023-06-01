@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
     List<Product> findAll();
     List<Product> findByCategory(Long categoryId);
-    void create(CreateProductDto dto) throws Exception;
+    void create(CreateProductDto dto);
     void createByCsv(List<ProductCsvDto> productCsvDtoList);
     Product findOne(Long productId);
     List<Product> findAllByIds(List<Long> ids);

@@ -1,7 +1,6 @@
 package com.beetech.mvcspringboot.controller.publics.cart;
 
-import com.beetech.mvcspringboot.controller.publics.cart.dto.CartItem;
-import com.beetech.mvcspringboot.model.Cart;
+import com.beetech.mvcspringboot.model.CartItem;
 import com.beetech.mvcspringboot.model.Discount;
 import com.beetech.mvcspringboot.model.User;
 import com.beetech.mvcspringboot.service.interfaces.CartService;
@@ -18,21 +17,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ServerErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The type Cart controller.
+ */
 @Controller
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 public class CartController {
+    /**
+     * inject cart service
+     */
     private final CartService cartService;
+    /**
+     * inject product service
+     */
     private final ProductService productService;
+    /**
+     * inject discount service
+     */
     private final DiscountService discountService;
 
 
+    /**
+     * Gets cart page.
+     *
+     * @param authentication the authentication
+     * @param model          the model
+     * @param cartsCookie    the carts cookie
+     * @return the cart page
+     */
     @GetMapping("")
     public String getCartPage(
             Authentication authentication,
@@ -42,27 +61,26 @@ public class CartController {
         if (authentication != null && authentication.isAuthenticated()) {
             var userDetails = (UserDetails) authentication.getPrincipal();
             Long userId = ((User) userDetails).getId();
-            List<Cart> carts = cartService.findAllByUserId(userId);
-            List<Discount> discounts = discountService.findAllByUserCart(userId);
-            discounts.forEach(System.out::println);
+            List<CartItem> cartItems = this.cartService.findAllByUserId(userId);
+            List<Discount> discounts = this.discountService.findAllByUserCart(userId);
             model.addAttribute("discounts", discounts);
-            model.addAttribute("carts", carts);
+            model.addAttribute("carts", cartItems);
         } else if (!cartsCookie.equals("")) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<Long, Long> carts = objectMapper.readValue(cartsCookie, new TypeReference<>() {
+                ConcurrentHashMap<Long, Long> carts = objectMapper.readValue(cartsCookie, new TypeReference<>() {
                 });
                 List<Long> productIds = new ArrayList<>(carts.keySet());
-                List<CartItem> cartItems = productService.findAllByIds(productIds)
+                List<com.beetech.mvcspringboot.controller.publics.cart.dto.CartItem> cartItemItems = this.productService.findAllByIds(productIds)
                         .stream()
-                        .map(product -> new CartItem(product, carts.get(product.getId())))
-                        .collect(Collectors.toList());
-                model.addAttribute("cartItems", cartItems);
+                        .map(product -> new com.beetech.mvcspringboot.controller.publics.cart.dto.CartItem(product, carts.get(product.getId())))
+                        .toList();
+                model.addAttribute("cartItems", cartItemItems);
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new ServerErrorException("Server error", e);
             }
         } else {
-            model.addAttribute("cartItems", new ArrayList<CartItem>());
+            model.addAttribute("cartItems", new ArrayList<com.beetech.mvcspringboot.controller.publics.cart.dto.CartItem>());
         }
         return "user/cart/index";
     }

@@ -1,11 +1,12 @@
 package com.beetech.mvcspringboot.model;
 
-import com.beetech.mvcspringboot.utils.DateTimeFormatterUtil;
+import com.beetech.mvcspringboot.utils.DateTimeFormatterUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Table(name = "product")
 @NoArgsConstructor(force = true)
 public class Product implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -50,7 +53,7 @@ public class Product implements Serializable {
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private Collection<Cart> carts = new ArrayList<>();
+    private Collection<CartItem> cartItems = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
     private Set<Discount> discounts = new HashSet<>();
@@ -62,11 +65,11 @@ public class Product implements Serializable {
     private LocalDateTime updated;
 
     public String getCreatedString() {
-        return DateTimeFormatterUtil.formatLocalDateTime(this.created);
+        return DateTimeFormatterUtils.formatLocalDateTime(this.created);
     }
 
     public String getUpdatedString() {
-        return DateTimeFormatterUtil.formatLocalDateTime(this.updated);
+        return DateTimeFormatterUtils.formatLocalDateTime(this.updated);
     }
 
     public String getListImageString() {

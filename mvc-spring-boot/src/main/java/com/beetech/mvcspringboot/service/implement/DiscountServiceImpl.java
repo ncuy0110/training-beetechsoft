@@ -63,11 +63,11 @@ public class DiscountServiceImpl implements DiscountService {
         Product productA = discount.getProducts().get(0);
         Product productB = discount.getProducts().get(1);
 
-        Cart cartOfProductA = cartService.findOneByUserAndProduct(userId, productA.getId());
-        Cart cartOfProductB = cartService.findOneByUserAndProduct(userId, productB.getId());
+        CartItem cartItemOfProductA = cartService.findOneByUserAndProduct(userId, productA.getId());
+        CartItem cartItemOfProductB = cartService.findOneByUserAndProduct(userId, productB.getId());
 
-        Long quantity = cartOfProductA.getQuantity() < cartOfProductB.getQuantity()
-                ? cartOfProductA.getQuantity() : cartOfProductB.getQuantity();
+        Long quantity = cartItemOfProductA.getQuantity() < cartItemOfProductB.getQuantity()
+                ? cartItemOfProductA.getQuantity() : cartItemOfProductB.getQuantity();
 
         Double discountAmount = (productA.getPrice() + productB.getPrice()) * quantity * discount.getPercent() / 100;
 

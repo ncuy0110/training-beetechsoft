@@ -21,6 +21,7 @@
         const updatePreview = () => {
             const imagesInput = document.getElementById('images');
             $('#preview').empty();
+            let img = '';
             for (let i = 0; i < imagesInput.files.length; i++) {
                 let reader = new FileReader();
                 const fileName = imagesInput.files.item(i).name;

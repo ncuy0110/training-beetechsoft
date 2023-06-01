@@ -25,7 +25,7 @@ public class JwtService {
 
     @Value("${beetech.app.jwtSecret}")
     @Setter
-    private String SECRET_KEY;
+    private String secretKey;
 
     @Setter
     @Value("${beetech.app.jwtExpirationMs}")
@@ -46,7 +46,7 @@ public class JwtService {
      *
      * @param <T>            generic type
      * @param token          is a jwt token
-     * @param claimsResolver is a function of Claims to get a data from extracted claim
+     * @param claimsResolver is a function to get a data from extracted claim
      * @return t t
      */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -120,7 +120,7 @@ public class JwtService {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

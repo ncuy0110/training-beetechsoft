@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ServerErrorException;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
                             new Exception("Category not found"))));
             productImageService.create(dto.getImages(), product);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new ServerErrorException("Server error: ", e);
         }
     }
 

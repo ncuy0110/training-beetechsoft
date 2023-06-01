@@ -87,7 +87,7 @@ class ProductServiceTest extends BaseServiceTest {
                         .findById(1L)
                         .orElseThrow())
                 .quantity(100L)
-                .description("test")
+                .description("test description 1")
                 .build());
         productRepository.save(Product.builder()
                 .price(1.0)
@@ -96,7 +96,7 @@ class ProductServiceTest extends BaseServiceTest {
                         .findById(1L)
                         .orElseThrow())
                 .quantity(100L)
-                .description("test")
+                .description("test description 2")
                 .build());
         productRepository.save(Product.builder()
                 .price(1.0)
@@ -105,13 +105,13 @@ class ProductServiceTest extends BaseServiceTest {
                         .findById(1L)
                         .orElseThrow())
                 .quantity(100L)
-                .description("test")
+                .description("test description 3")
                 .build());
         productService = new ProductServiceImpl(productRepository, categoryRepository, productImageService);
     }
 
     @Test
-    void findAll_ShouldReturnListProduct() {
+    void findAllShouldReturnListProduct() {
         var result = productService.findAll();
         assertEquals(result.size(), products.size());
     }
@@ -124,13 +124,13 @@ class ProductServiceTest extends BaseServiceTest {
     }
 
     @Test
-    void createProduct_WhenValidInfo() {
+    void createProductWhenValidInfo() {
         var productDto = CreateProductDto.builder()
                 .price(1.0)
                 .name("test product 2")
                 .categoryId(1L)
                 .quantity(100L)
-                .description("test")
+                .description("test description")
                 .images(new ArrayList<>())
                 .build();
         var size = products.size();

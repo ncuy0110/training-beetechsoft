@@ -19,7 +19,7 @@ import org.springframework.web.util.WebUtils;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -43,7 +43,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         if (cartsCookie != null) {
             String cartsJsonString = URLDecoder.decode(cartsCookie.getValue(), StandardCharsets.UTF_8);
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<Long, Long> carts = objectMapper.readValue(cartsJsonString, new TypeReference<Map<Long, Long>>() {
+            ConcurrentHashMap<Long, Long> carts = objectMapper.readValue(cartsJsonString, new TypeReference<>() {
             });
             cartService.synchronizeCart(userId, carts);
             // create a cookie
@@ -59,7 +59,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
         var token = jwtService.generateToken(userDetails);
         Cookie cookie = new Cookie("accessToken", token);
-        cookie.setMaxAge(24*60*60*1000);
+        cookie.setMaxAge(24 * 60 * 60 * 1000);
         response.addCookie(cookie);
         super.onAuthenticationSuccess(request, response, authentication);
     }

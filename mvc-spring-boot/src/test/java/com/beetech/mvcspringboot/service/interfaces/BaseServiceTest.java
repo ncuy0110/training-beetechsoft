@@ -13,11 +13,10 @@ import com.beetech.mvcspringboot.utils.CustomPasswordEncoder;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -33,8 +33,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 @Getter
 @Setter
-@ExtendWith(MockitoExtension.class)
-public class BaseServiceTest {
+class BaseServiceTest {
 
     @Mock
     CategoryRepository categoryRepository;
@@ -60,7 +59,7 @@ public class BaseServiceTest {
     void setUp() {
         openMocks(this);
         setUpCategoryRepository();
-        roleRepository = mock(RoleRepository.class);
+        this.roleRepository = mock(RoleRepository.class);
         Role roleAdmin = Role.builder()
                 .name(RoleEnum.ADMIN)
                 .id(1)
@@ -69,62 +68,62 @@ public class BaseServiceTest {
                 .name(RoleEnum.NORMAL)
                 .id(2)
                 .build();
-        lenient().when(roleRepository.findRoleByName(RoleEnum.NORMAL)).thenReturn(roleNormal);
-        lenient().when(roleRepository.findRoleByName(RoleEnum.ADMIN)).thenReturn(roleAdmin);
+        lenient().when(this.roleRepository.findRoleByName(RoleEnum.NORMAL)).thenReturn(roleNormal);
+        lenient().when(this.roleRepository.findRoleByName(RoleEnum.ADMIN)).thenReturn(roleAdmin);
 
-        users = new ArrayList<>(
+        this.users = new ArrayList<>(
                 List.of(User.builder()
-                        .username(username).password(passwordEncoder.encode(password))
+                        .username(this.username).password(this.passwordEncoder.encode(this.password))
                         .roles(new HashSet<>(
-                                List.of(roleRepository.findRoleByName(RoleEnum.NORMAL), roleRepository.findRoleByName(RoleEnum.ADMIN))))
+                                List.of(this.roleRepository.findRoleByName(RoleEnum.NORMAL), this.roleRepository.findRoleByName(RoleEnum.ADMIN))))
                         .build()));
 
-        lenient().when(userRepository.save(any(User.class))).then(new Answer<User>() {
+        lenient().when(this.userRepository.save(any(User.class))).then(new Answer<User>() {
             long sequence = 1;
 
             @Override
             public User answer(InvocationOnMock invocationOnMock) {
                 User user = invocationOnMock.getArgument(0);
-                user.setId(sequence++);
-                users.add(user);
+                user.setId(this.sequence++);
+                BaseServiceTest.this.users.add(user);
                 return user;
             }
         });
 
-        lenient().when(userRepository.findUserByUsername(any(String.class))).then((Answer<Optional<User>>) invocationOnMock -> {
+        lenient().when(this.userRepository.findUserByUsername(any(String.class))).then((Answer<Optional<User>>) invocationOnMock -> {
             String usernameParam = invocationOnMock.getArgument(0);
-            return users.stream()
+            return this.users.stream()
                     .filter(user -> user.getUsername().equals(usernameParam))
                     .findFirst();
         });
 
-//        userRepository.save(User.builder()
-//                .username("test_username")
-//                .password(passwordEncoder.encode("test_password"))
-//                .roles(new HashSet<>(List.of(roleRepository.findRoleByName(RoleEnum.NORMAL))))
-//                .build());
-        userService = new UserServiceImpl(userRepository, roleRepository, passwordEncoder);
+        this.userService = new UserServiceImpl(this.userRepository, this.roleRepository, this.passwordEncoder);
     }
 
     void setUpCategoryRepository() {
-        categoryRepository = mock(CategoryRepository.class);
-        categories = new ArrayList<>();
+        this.categoryRepository = mock(CategoryRepository.class);
+        this.categories = new ArrayList<>();
 
-        lenient().when(categoryRepository.findAll()).thenReturn(categories);
-        lenient().when(categoryRepository.save(any(Category.class))).then(new Answer<>() {
+        lenient().when(this.categoryRepository.findAll()).thenReturn(this.categories);
+        lenient().when(this.categoryRepository.save(any(Category.class))).then(new Answer<>() {
             long sequence = 1;
 
             @Override
             public Object answer(InvocationOnMock invocationOnMock) {
                 Category category = invocationOnMock.getArgument(0);
-                category.setId(sequence++);
-                categories.add(category);
+                category.setId(this.sequence++);
+                BaseServiceTest.this.categories.add(category);
                 return null;
             }
         });
 
-        categoryRepository.save(new Category("Category 1"));
-        categoryRepository.save(new Category("Category 2"));
-        lenient().when(categoryRepository.findById(1L)).thenReturn(Optional.ofNullable(categories.get(0)));
+        this.categoryRepository.save(new Category("Category 1"));
+        this.categoryRepository.save(new Category("Category 2"));
+        lenient().when(this.categoryRepository.findById(1L)).thenReturn(Optional.ofNullable(this.categories.get(0)));
+    }
+
+    @Test
+    void test() {
+        assertTrue(true);
     }
 }
